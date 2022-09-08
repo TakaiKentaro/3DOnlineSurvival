@@ -383,4 +383,41 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         //ゲーム開始をコールする
         //SendGameStart();
     }
+
+    //Photon以外の対応
+
+    /// <summary>
+    /// 合言葉のセット
+    /// </summary>
+    /// <param name="kwd"></param>
+    public void SetKeyword(string kwd)
+    {
+        _onlineKeyword = kwd;
+    }
+
+    //イカPhotonからのコールバック
+
+    /// <summary>
+    /// Photonに接続した時
+    /// </summary>
+    public override void OnConnectedToMaster()　//クライアントがMaster Serverに接続されていて、マッチメイキングやその他のタスクを行う準備が整ったときに呼び出される
+    {
+        Debug.Log("OnConnectedToMaster");
+        State = PhotonState.CONNECTED;
+    }
+
+    /// <summary>
+    /// ロビーに入った時
+    /// </summary>
+    public override void OnJoinedLobby() //マスターサーバーのロビーに入るときに呼び出される
+    {
+        Debug.Log("OnJoinedLobby:" + PhotonNetwork.CurrentLobby.Name);
+
+        //カスタムプロパティ
+        var userProp = _mySelf.CreateHashTable();
+        userProp["GUID"] = Guid.NewGuid().ToString();
+        PhotonNetwork.SetPlayerCustomProperties(userProp);
+
+        State = PhotonState.IN_LOBBY;
+    }
 }
