@@ -417,7 +417,74 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         var userProp = _mySelf.CreateHashTable();
         userProp["GUID"] = Guid.NewGuid().ToString();
         PhotonNetwork.SetPlayerCustomProperties(userProp);
+        
+        //相手が来るまで待つように同期を行う
+        State = PhotonState.IN_LOBBY;
+        UpdateUserStatus();
+        CheckRoomStatus();
+    }
+
+    /// <summary>
+    /// ルームから抜けた時
+    /// </summary>
+    public override void OnLeftRoom()
+    {
+        Debug.Log("OnLeftRoom");
+        base.OnLeftRoom();
 
         State = PhotonState.IN_LOBBY;
+    }
+
+    /// <summary>
+    /// PUN2でルーム取得
+    /// </summary>
+    /// <param name="roomList"></param>
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        Debug.Log("OnRoomListUpdate");
+
+        base.OnRoomListUpdate(roomList);
+
+        _roomList = roomList;
+
+#if UNITY_EDITOR
+        RoomUpdate?.Invoke(_roomList);
+#endif
+    }
+
+    /// <summary>
+    /// 相手の切断
+    /// </summary>
+    /// <param name="otherPlayer"></param>
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        base.OnPlayerLeftRoom(otherPlayer);
+        //相手が切断したので、勝ちにする
+    }
+
+    //RPC
+
+    /// <summary>
+    /// イベント
+    /// </summary>
+    [PunRPC]
+    void EventCall(int id, int status)
+    {
+        _eventCallback?.Invoke(id,status);
+    }
+
+    public void SendEvent(int evt)
+    {
+        _photonView.RPC("EventCall", RpcTarget.All, PhotonNetwork.LocalPlayer.UserId, evt);
+    }
+
+    void GameStartCall()
+    {
+        State = PhotonState.IN_GAME;
+        _gameStartCallback?.Invoke();
+    }
+    void SendGameStart()
+    {
+        _photonView.RPC("GameStartCall", RpcTarget.All);
     }
 }
