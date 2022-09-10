@@ -492,6 +492,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         _photonView.RPC("EventCall", RpcTarget.All, PhotonNetwork.LocalPlayer.UserId, evt);
     }
 
+    [PunRPC]
     void GameStartCall()
     {
         State = PhotonState.IN_GAME;
