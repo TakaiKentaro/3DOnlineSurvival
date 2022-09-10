@@ -3,6 +3,7 @@ using System;
 /// <summary>
 /// 共有する情報
 /// </summary>
+[Serializable]
 public struct UserParam
 {
     public string Name; //ユーザーの名前

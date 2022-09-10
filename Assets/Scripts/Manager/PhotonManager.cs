@@ -59,8 +59,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     [SerializeField, Tooltip("自動的に接続")] bool _isAutoConnect = true;
     [SerializeField, Tooltip("自動でルームに入る")] bool _isAutoJoin = true;
     [SerializeField, Tooltip("ランクマになる")] bool _isRankMatching = true;
-    [SerializeField, Tooltip("マッチング用合言葉")] string _onlineKeyword = "";
     [SerializeField, Tooltip("Photonで共有されるユーザ情報")] UserParam _mySelf = new UserParam();
+    [SerializeField, Tooltip("マッチング用合言葉")] string _onlineKeyword = "";
 
     [Tooltip("ルーム情報一覧")] List<RoomInfo> _roomList = null;
     [Tooltip("Photonの接続State")] PhotonState State;
@@ -182,7 +182,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     /// <summary>
     /// 部屋を作る
     /// </summary>
-    public void CreatRoom()
+    public void CreateRoom()
     {
         Debug.Log($"CreatRoom");
         RoomOptions roomOptions = new RoomOptions(); //ルームを作成しますが、ルームがすでに存在している場合は失敗します。マスタサーバでのみ呼び出すことができます。
@@ -326,7 +326,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
                         }
                         else
                         {
-                            CreatRoom();
+                            CreateRoom();
                             State = PhotonState.IN_GAME;
                         }
                     }
@@ -381,7 +381,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.SetCustomProperties(PhotonNetwork.CurrentRoom.CustomProperties); //入室しているルームのアップデートを行う
 
         //ゲーム開始をコールする
-        //SendGameStart();
+        SendGameStart();
     }
 
     //Photon以外の対応
@@ -417,9 +417,23 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         var userProp = _mySelf.CreateHashTable();
         userProp["GUID"] = Guid.NewGuid().ToString();
         PhotonNetwork.SetPlayerCustomProperties(userProp);
-        
+
         //相手が来るまで待つように同期を行う
         State = PhotonState.IN_LOBBY;
+    }
+
+    /// <summary>
+    /// ルームに入った時
+    /// </summary>
+    public override void OnJoinedRoom()
+    {
+        Debug.Log("OnJoinedRoom");
+        base.OnJoinedRoom();
+
+        _roomJoinCallback?.Invoke();
+
+        //相手が来るまで待つよう同期する
+        State = PhotonState.READY;
         UpdateUserStatus();
         CheckRoomStatus();
     }
@@ -470,7 +484,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void EventCall(int id, int status)
     {
-        _eventCallback?.Invoke(id,status);
+        _eventCallback?.Invoke(id, status);
     }
 
     public void SendEvent(int evt)
