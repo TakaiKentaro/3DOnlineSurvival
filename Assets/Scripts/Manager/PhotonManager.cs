@@ -420,6 +420,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
         //‘Šè‚ª—ˆ‚é‚Ü‚Å‘Ò‚Â‚æ‚¤‚É“¯Šú‚ğs‚¤
         State = PhotonState.IN_LOBBY;
+
+        //MasterCliant‚Æ“¯‚¶Scene‚ğƒ[ƒh
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     /// <summary>
