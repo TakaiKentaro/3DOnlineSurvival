@@ -1265,7 +1265,7 @@ MonoBehaviour:
   _photonView: {fileID: 881069332}
   _maxPlayerInRoom: 4
   _isAutoConnect: 1
-  _isAutoJoin: 1
+  _isAutoJoin: 0
   _isRankMatching: 1
   _mySelf:
     Name: TestUser

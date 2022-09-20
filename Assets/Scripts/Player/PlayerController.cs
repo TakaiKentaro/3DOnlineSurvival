@@ -21,5 +21,25 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (!_view.IsMine) { return; }
+
+        PlayerMove();
+    }
+
+    void PlayerMove()
+    {
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+        Vector3 dir = new Vector3(h, 0, v);
+
+        dir = Camera.main.transform.TransformDirection(dir);
+        dir.y = 0;
+
+        if (dir != Vector3.zero)
+        {
+            this.transform.forward = dir;
+        }
+
+        _rb.velocity = dir.normalized * _playerMoveSpeed + _rb.velocity.y * Vector3.up;
+
     }
 }
