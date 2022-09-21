@@ -28,13 +28,9 @@ public class PlayerSpawneManager : MonoBehaviourPunCallbacks // Photon Realtime 
         Transform spawnPoint = _spawnPositions[actorNumber - 1];
 
         // プレイヤーを生成し、他のクライアントと同期する
+        //PhotonNetwork.IsMessageQueueRunning = true;
         GameObject player = PhotonNetwork.Instantiate(_playerPrefabName, spawnPoint.position, Quaternion.identity);
 
-        /* **************************************************
-         * ルームに参加している人数が最大に達したら部屋を閉じる（参加を締め切る）
-         * 部屋を閉じないと、最大人数から減った時に次のユーザーが入ってきてしまう。
-         * 現状のコードではユーザーが最大人数から減った際の追加入室を考慮していないため、追加入室させたい場合は実装を変更する必要がある。
-         * **************************************************/
         if (actorNumber > PhotonNetwork.CurrentRoom.MaxPlayers - 1)
         {
             Debug.Log("Closing Room");

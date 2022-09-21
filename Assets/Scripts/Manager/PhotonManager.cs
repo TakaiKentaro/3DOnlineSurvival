@@ -505,4 +505,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         _photonView.RPC("GameStartCall", RpcTarget.All);
     }
+
+    public void AutoJoin()
+    {
+        if(!_isAutoJoin) _isAutoJoin = true;
+    }
 }
