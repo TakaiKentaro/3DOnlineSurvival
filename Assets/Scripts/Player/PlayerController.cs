@@ -20,18 +20,18 @@ public class PlayerController : MonoBehaviour
     /// <summary>キャラクターの Animator</summary>
     [SerializeField] Animator _anim;
 
-    Rigidbody m_rb;
-    PhotonView m_view;
+    Rigidbody _rb;
+    PhotonView _view;
 
     void Start()
     {
-        m_view = GetComponent<PhotonView>();
-        if (m_view)
+        _view = GetComponent<PhotonView>();
+        if (_view)
         {
-            if (m_view.IsMine)
+            if (_view.IsMine)
             {
                 // 同期元（自分で操作して動かす）オブジェクトの場合のみ Rigidbody, Animator を使う
-                m_rb = GetComponent<Rigidbody>();
+                _rb = GetComponent<Rigidbody>();
                 _anim = GetComponent<Animator>();
             }
         }
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!m_view.IsMine) return;
+        if (!_view.IsMine) return;
         // 方向の入力を取得し、方向を求める
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
@@ -55,8 +55,8 @@ public class PlayerController : MonoBehaviour
 
             // 上下で前後移動する。ジャンプした時の y 軸方向の速度は保持する。
             Vector3 velo = this.transform.forward * _movingSpeed * v;
-            velo.y = m_rb.velocity.y;
-            m_rb.velocity = velo;
+            velo.y = _rb.velocity.y;
+            _rb.velocity = velo;
         }
         else if (_controlType == ControlType.Move || _controlType == ControlType.MoveWithSmoothTurn)
         {
@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
             if (dir == Vector3.zero)
             {
                 // 方向の入力がニュートラルの時は、y 軸方向の速度を保持するだけ
-                m_rb.velocity = new Vector3(0f, m_rb.velocity.y, 0f);
+                _rb.velocity = new Vector3(0f, _rb.velocity.y, 0f);
             }
             else
             {
@@ -86,8 +86,8 @@ public class PlayerController : MonoBehaviour
                 }
                 
                 Vector3 velo = dir.normalized * _movingSpeed; // 入力した方向に移動する
-                velo.y = m_rb.velocity.y;   // ジャンプした時の y 軸方向の速度を保持する
-                m_rb.velocity = velo;   // 計算した速度ベクトルをセットする
+                velo.y = _rb.velocity.y;   // ジャンプした時の y 軸方向の速度を保持する
+                _rb.velocity = velo;   // 計算した速度ベクトルをセットする
             }
         }
 
@@ -95,12 +95,12 @@ public class PlayerController : MonoBehaviour
         if (_anim)
         {
             // 水平方向の速度を Speed にセットする
-            Vector3 velocity = m_rb.velocity;
+            Vector3 velocity = _rb.velocity;
             velocity.y = 0f;
             _anim.SetFloat("Speed", velocity.magnitude);
 
             // 地上/空中の状況に応じて IsGrounded をセットする
-            if (m_rb.velocity.y <= 0f && IsGrounded())
+            if (_rb.velocity.y <= 0f && IsGrounded())
             {
                 _anim.SetBool("IsGrounded", true);
             }
@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour
         // ジャンプの入力を取得し、接地している時に押されていたらジャンプする
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
-            m_rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
+            _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
 
             // Animator Controller のパラメータをセットする
             if (_anim)
