@@ -374,7 +374,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &779635829
 Transform:
   m_ObjectHideFlags: 0
@@ -404,6 +404,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerPrefabName: PlayerPrefab
   _spawnPositions:
+  - {fileID: 161841730}
+  - {fileID: 161841730}
+  - {fileID: 161841730}
   - {fileID: 161841730}
 --- !u!1 &1241314094
 GameObject:
@@ -583,7 +586,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2897266817613824809, guid: 99a8af4a784f2b04ba51bbbaa08c6504, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99a8af4a784f2b04ba51bbbaa08c6504, type: 3}
