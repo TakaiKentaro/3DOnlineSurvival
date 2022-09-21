@@ -28,7 +28,7 @@ public class PlayerSpawneManager : MonoBehaviourPunCallbacks // Photon Realtime 
         Transform spawnPoint = _spawnPositions[actorNumber - 1];
 
         // プレイヤーを生成し、他のクライアントと同期する
-        //PhotonNetwork.IsMessageQueueRunning = true;
+        PhotonNetwork.IsMessageQueueRunning = true;
         GameObject player = PhotonNetwork.Instantiate(_playerPrefabName, spawnPoint.position, Quaternion.identity);
 
         if (actorNumber > PhotonNetwork.CurrentRoom.MaxPlayers - 1)
