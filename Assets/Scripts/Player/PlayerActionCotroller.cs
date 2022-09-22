@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ExitGames.Client.Photon;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class PlayerActionCotroller : MonoBehaviour
 {
@@ -13,17 +16,31 @@ public class PlayerActionCotroller : MonoBehaviour
 
     [Header("Status")]
     [SerializeField] float _intervalTime;
+
     bool _check;
+    PhotonView _view;
 
     private void Start()
     {
-        _attacFakeCollider.SetActive(true);
-        _attackCollider.SetActive(false);
-        _guardCollider.SetActive(false);
+        _view = GetComponent<PhotonView>();
+        if (_view)
+        {
+            if (_view.IsMine)
+            {
+                // 同期元（自分で操作して動かす）オブジェクトの場合のみ Rigidbody, Animator を使う
+                _attacFakeCollider.SetActive(true);
+                _attackCollider.SetActive(false);
+                _guardCollider.SetActive(false);
+            }
+        }
+
+        
     }
 
     private void Update()
     {
+        if (!_view.IsMine) return;
+
         if (!_check)
         {
             if (Input.GetButtonDown("Fire1"))

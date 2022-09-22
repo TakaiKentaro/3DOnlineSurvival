@@ -7,7 +7,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Linq;
 
-public class PlayerSpawneManager : MonoBehaviourPunCallbacks // Photon Realtime 用のクラスを継承する
+public class SpawneManager : MonoBehaviourPunCallbacks // Photon Realtime 用のクラスを継承する
 {
     [SerializeField] string _playerPrefabName = "PlayerPrefab";
     [SerializeField] Transform[] _spawnPositions;
