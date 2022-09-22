@@ -6,7 +6,7 @@ using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class PlayerHit : MonoBehaviour
+public class PlayerHit : MonoBehaviourPunCallbacks
 {
     [SerializeField] int _playerHp = 100;
     [SerializeField] Slider _hpSlider;
