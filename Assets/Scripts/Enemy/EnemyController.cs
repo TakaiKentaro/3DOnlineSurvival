@@ -13,8 +13,7 @@ public class EnemyController : MonoBehaviourPunCallbacks
     [SerializeField] int _ememyHp = 10;
     [SerializeField] float _enemyMoveSpeed;
     [SerializeField] Transform[] _playerPos;
-    [SerializeField] Slider _hpSlider;
-    [SerializeField] EventGameManager _enemyManager;
+    [SerializeField] Slider _enemyHpSlider;
 
     int _currentWaypointIndex;
     NavMeshAgent _navMeshAgent;
@@ -28,7 +27,8 @@ public class EnemyController : MonoBehaviourPunCallbacks
         {
             _rb = GetComponent<Rigidbody>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
-            _enemyManager._hp = _ememyHp;
+            _enemyHpSlider.maxValue = _ememyHp;
+            _enemyHpSlider.value = _ememyHp;
             _navMeshAgent.speed = _enemyMoveSpeed;
         }
 
@@ -57,14 +57,7 @@ public class EnemyController : MonoBehaviourPunCallbacks
     {
         if (other.CompareTag("Attack"))
         {
-            _ememyHp--;
-            _enemyManager._hp = _ememyHp;
-            Debug.Log(_ememyHp);
-            if(_ememyHp <= 0)
-            {
-                Debug.Log("ƒNƒŠƒA");
-                gameObject.SetActive(false);
-            }
+            Damage(1);
         }
         if(other.CompareTag("Guard"))
         {
@@ -81,6 +74,31 @@ public class EnemyController : MonoBehaviourPunCallbacks
         {
             yield return new WaitForSeconds(1f);
             _navMeshAgent.SetDestination(_playerPos[_currentWaypointIndex].position);
+        }
+    }
+
+    public void Damage(int damage)
+    {
+        _ememyHp -= damage;
+        _enemyHpSlider.value = _ememyHp;
+        Dead();
+        object[] parameters = new object[] { _ememyHp };
+        _view.RPC("SyncLife", RpcTarget.All, parameters);
+    }
+
+    [PunRPC]
+    void SyncLife(int currentLife)
+    {
+        _ememyHp = currentLife;
+        _enemyHpSlider.value = _ememyHp;
+        Dead();
+    }
+
+    void Dead()
+    {
+        if(_ememyHp <= 0)
+        {
+            gameObject.SetActive(false);
         }
     }
 }
