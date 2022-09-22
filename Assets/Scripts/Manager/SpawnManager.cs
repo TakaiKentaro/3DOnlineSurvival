@@ -12,7 +12,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks // Photon Realtime —p‚ÌƒNƒ
     [SerializeField] string _playerPrefabName = "PlayerPrefab";
     [SerializeField] Transform[] _spawnPositions;
 
-    private void Start()
+    private void Awake()
     {
         SpawnPlayer();
     }
