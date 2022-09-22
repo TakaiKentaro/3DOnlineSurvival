@@ -5,6 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Linq;
+using UnityEngine.UI;
 
 /// <summary>
 /// ÉçÉrÅ[ê∂ê¨
@@ -508,6 +509,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public void AutoJoin()
     {
-        if(!_isAutoJoin) _isAutoJoin = true;
+        if (!_isAutoJoin) _isAutoJoin = true;
     }
 }
