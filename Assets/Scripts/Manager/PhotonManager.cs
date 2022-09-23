@@ -53,7 +53,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public delegate void GameStartCallback(); //ゲームが始まった時に呼ばれる処理
     public delegate void GameStopCallback();　//ゲームが止まった時に呼ばれる処理
     public delegate void GameEventCallback(int id, int evt); //イベント処理をする時に呼ばれる処理
-    public delegate void RoomUpdateCallback(List<RoomInfo> roomList); ////ルーム情報一覧が更新された時に呼ばれる処理
+    public delegate void RoomUpdateCallback(List<RoomInfo> roomList); //ルーム情報一覧が更新された時に呼ばれる処理
 
     [SerializeField, Tooltip("一緒に着けるPhotonView")] PhotonView _photonView;
     [SerializeField, Tooltip("1つのルームに何人までか")] int _maxPlayerInRoom = 4;
