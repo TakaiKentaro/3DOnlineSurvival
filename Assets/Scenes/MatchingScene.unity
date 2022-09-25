@@ -1388,7 +1388,7 @@ MonoBehaviour:
   _isAutoJoin: 0
   _isRankMatching: 1
   _mySelf:
-    Name: TestUser
+    Name: UserName
     Rank: 1
   _onlineKeyword: 
 --- !u!114 &881069332
