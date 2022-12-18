@@ -7,7 +7,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Linq;
 
-public class SpawnManager : MonoBehaviourPunCallbacks // Photon Realtime —p‚ÌƒNƒ‰ƒX‚ğŒp³‚·‚é
+public class SpawnManager : MonoBehaviourPunCallbacks // Photon Realtime ç”¨ã®ã‚¯ãƒ©ã‚¹ã‚’ç¶™æ‰¿ã™ã‚‹
 {
     [SerializeField] string _playerPrefabName = "PlayerPrefab";
     [SerializeField] Transform[] _spawnPositions;
@@ -18,16 +18,16 @@ public class SpawnManager : MonoBehaviourPunCallbacks // Photon Realtime —p‚ÌƒNƒ
     }
 
     /// <summary>
-    /// ƒvƒŒƒCƒ„[‚ğ¶¬‚·‚é
+    /// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç”Ÿæˆã™ã‚‹
     /// </summary>
     public void SpawnPlayer()
     {
-        // ƒvƒŒƒCƒ„[‚ğ‚Ç‚±‚É spawn ‚³‚¹‚é‚©Œˆ‚ß‚é
-        int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;    // ©•ª‚Ì ActorNumber ‚ğæ“¾‚·‚éB‚È‚¨ ActorNumber ‚Íu1‚©‚çv“üº‡‚ÉU‚ç‚ê‚éB
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ã©ã“ã« spawn ã•ã›ã‚‹ã‹æ±ºã‚ã‚‹
+        int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;    // è‡ªåˆ†ã® ActorNumber ã‚’å–å¾—ã™ã‚‹ã€‚ãªãŠ ActorNumber ã¯ã€Œ1ã‹ã‚‰ã€å…¥å®¤é †ã«æŒ¯ã‚‰ã‚Œã‚‹ã€‚
         Debug.Log("My ActorNumber: " + actorNumber);
         Transform spawnPoint = _spawnPositions[actorNumber - 1];
 
-        // ƒvƒŒƒCƒ„[‚ğ¶¬‚µA‘¼‚ÌƒNƒ‰ƒCƒAƒ“ƒg‚Æ“¯Šú‚·‚é
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç”Ÿæˆã—ã€ä»–ã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã¨åŒæœŸã™ã‚‹
         PhotonNetwork.IsMessageQueueRunning = true;
         GameObject player = PhotonNetwork.Instantiate(_playerPrefabName, spawnPoint.position, Quaternion.identity);
 

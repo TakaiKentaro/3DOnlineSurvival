@@ -3,32 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ƒ‰ƒ“ƒ_ƒ€‚Éƒ}ƒbƒv‚ğ¶¬‚·‚éƒNƒ‰ƒX
+/// ãƒ©ãƒ³ãƒ€ãƒ ã«ãƒãƒƒãƒ—ã‚’ç”Ÿæˆã™ã‚‹ã‚¯ãƒ©ã‚¹
 /// </summary>
 public class MapMaker : MonoBehaviour
 {
-    [Header("ƒV[ƒh’l")]
-    [SerializeField, Tooltip("ƒV[ƒh’lX")]
+    [Header("ã‚·ãƒ¼ãƒ‰å€¤")]
+    [SerializeField, Tooltip("ã‚·ãƒ¼ãƒ‰å€¤X")]
     private float _seedX;
-    [SerializeField, Tooltip("ƒV[ƒh’lZ")]
+    [SerializeField, Tooltip("ã‚·ãƒ¼ãƒ‰å€¤Z")]
     private float _seedZ;
 
-    [Header("ƒTƒCƒY")]
-    [SerializeField, Tooltip("•")]
+    [Header("ã‚µã‚¤ã‚º")]
+    [SerializeField, Tooltip("å¹…")]
     private float _width = 50f;
-    [SerializeField, Tooltip("[‚³")]
+    [SerializeField, Tooltip("æ·±ã•")]
     private float _depth = 50f;
-    [SerializeField, Tooltip("‚‚³‚ÌÅ‘å’l")]
+    [SerializeField, Tooltip("é«˜ã•ã®æœ€å¤§å€¤")]
     private float _maxHeight = 10f;
-    [SerializeField, Tooltip("‹N•š‚ÌŒƒ‚µ‚³")]
+    [SerializeField, Tooltip("èµ·ä¼ã®æ¿€ã—ã•")]
     private float _undulation = 15f;
-    [SerializeField, Tooltip("ƒ}ƒbƒv‚Ì‘å‚«‚³")]
+    [SerializeField, Tooltip("ãƒãƒƒãƒ—ã®å¤§ãã•")]
     private float _mapSize = 1f;
-    [SerializeField, Tooltip("ƒp[ƒŠƒ“ƒmƒCƒY‚ğg‚¤‚©")]
+    [SerializeField, Tooltip("ãƒ‘ãƒ¼ãƒªãƒ³ãƒã‚¤ã‚ºã‚’ä½¿ã†ã‹")]
     private bool _isPerlinNoiseMap = true;
-    [SerializeField, Tooltip("Y²‚ÌŠŠ‚ç‚©‚É‚·‚é‚©")]
+    [SerializeField, Tooltip("Yè»¸ã®æ»‘ã‚‰ã‹ã«ã™ã‚‹ã‹")]
     private bool _isSmoothness = false;
-    [SerializeField, Tooltip("ƒRƒ‰ƒCƒ_[”»’è")]
+    [SerializeField, Tooltip("ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼åˆ¤å®š")]
     private bool _isCollider = false;
 
     private void Awake()
@@ -51,7 +51,7 @@ public class MapMaker : MonoBehaviour
                     Destroy(cube.GetComponent<BoxCollider>());
                 }
 
-                //‚‚³İ’è
+                //é«˜ã•è¨­å®š
                 SetYPosition(cube);
             }
         }
@@ -59,11 +59,11 @@ public class MapMaker : MonoBehaviour
 
     private void OnValidate()
     {
-        if (!Application.isPlaying) { return; } // Às’†‚Å‚È‚¯‚ê‚ÎƒXƒ‹[
+        if (!Application.isPlaying) { return; } // å®Ÿè¡Œä¸­ã§ãªã‘ã‚Œã°ã‚¹ãƒ«ãƒ¼
 
         transform.localScale = new Vector3(_mapSize, _mapSize, _mapSize);
 
-        foreach (Transform child in transform) // ŠeƒLƒ…[ƒu‚ÌÀ•WY‚ğ•ÏX
+        foreach (Transform child in transform) // å„ã‚­ãƒ¥ãƒ¼ãƒ–ã®åº§æ¨™Yã‚’å¤‰æ›´
         {
             SetYPosition(child.gameObject);
         }
@@ -73,7 +73,7 @@ public class MapMaker : MonoBehaviour
     {
         float y = 0;
 
-        if (_isPerlinNoiseMap) // ƒp[ƒŠƒ“ƒmƒCƒY‚ğg‚Á‚Ä‚‚³‚ğŒˆ‚ß‚é
+        if (_isPerlinNoiseMap) // ãƒ‘ãƒ¼ãƒªãƒ³ãƒã‚¤ã‚ºã‚’ä½¿ã£ã¦é«˜ã•ã‚’æ±ºã‚ã‚‹
         {
             float xSample = (cube.transform.localPosition.x + _seedX) / _undulation;
             float zSample = (cube.transform.localPosition.z + _seedZ) / _undulation;
@@ -82,12 +82,12 @@ public class MapMaker : MonoBehaviour
 
             y = _maxHeight * noise;
         }
-        else // ƒ‰ƒ“ƒ_ƒ€‚ÅŒˆ‚ß‚é
+        else // ãƒ©ãƒ³ãƒ€ãƒ ã§æ±ºã‚ã‚‹
         {
             y = Random.Range(0, _maxHeight);
         }
 
-        if (!_isSmoothness) // ŠŠ‚ç‚©‚É‚µ‚È‚¢ê‡‚Íy‚ğlÌŒÜ“ü‚·‚é
+        if (!_isSmoothness) // æ»‘ã‚‰ã‹ã«ã—ãªã„å ´åˆã¯yã‚’å››æ¨äº”å…¥ã™ã‚‹
         {
             y = Mathf.Round(y);
         }
@@ -97,19 +97,19 @@ public class MapMaker : MonoBehaviour
         ChangeCubeColor(cube, y);
     }
 
-    void ChangeCubeColor(GameObject cube, float y) //‚‚³‚É‚æ‚Á‚ÄF‚ğ’iŠK“I‚É•ÏX
+    void ChangeCubeColor(GameObject cube, float y) //é«˜ã•ã«ã‚ˆã£ã¦è‰²ã‚’æ®µéšçš„ã«å¤‰æ›´
     {
-        Color color = Color.black; //Šâ”Õ
+        Color color = Color.black; //å²©ç›¤
 
-        if (y > _maxHeight * 0.3f) //‘
+        if (y > _maxHeight * 0.3f) //è‰
         {
             ColorUtility.TryParseHtmlString("#00ff00", out color);
         }
-        else if (y > _maxHeight * 0.2f) // “y
+        else if (y > _maxHeight * 0.2f) // åœŸ
         {
             ColorUtility.TryParseHtmlString("#8b4513", out color);
         }
-        else if (y > _maxHeight * 0.1f) // Î
+        else if (y > _maxHeight * 0.1f) // çŸ³
         {
             ColorUtility.TryParseHtmlString("#808080", out color);
         }
