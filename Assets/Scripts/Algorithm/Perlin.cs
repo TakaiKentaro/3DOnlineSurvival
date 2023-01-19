@@ -17,7 +17,7 @@ class Perlin
         double total = 0; // 合計値
         double frequency = 1; // 周波数
         double amplitude = 1; // 振れ幅
-
+        
         // x、y、z座標に対してPerlinノイズを生成。その後、生成されたPerlinノイズの値がamplitudeによって乗算され、その結果がtotalに加算
         // 次に、amplitudeがpersistenceによって乗算され、frequencyは2倍になる。
         // よって、より高周波数のPerlinノイズが生成され、より小さなアンプリフィケーションが適用される。
@@ -129,7 +129,12 @@ class Perlin
         int b = p[xi + 1] + yi;
         int ba = p[b] + zi;
         int bb = p[b + 1] + zi;
-
+        
+        // 与えられた「u」と「v」の値に基づいて2つの値（x1、x2）と（y1、y2）の間を補間するために、lerp（線形補間）関数を使用する
+        // ノイズ空間における与えられた点の勾配を計算するために使用されるgrad関数を使用し、関数のp（2倍の並べ換え配列）、xf、yf、zfの値を入力として取り込みます
+        // パーリンノイズを生成するために「フラクショナルブラウン運動」（fBm）と呼ばれる技術を使用している(fBmは複数のオクターブのノイズを組み合わせて、より複雑なノイズパターンを生成する技術)
+        // 点のz値に対して2つのノイズ値（y1、y2）を生成し、「v」値に基づいてそれらの間を補間することにより、2Dのノイズパターンを生成している。
+        // また、点のxとyの値に対して2つのノイズ値(x1, x2)を生成し、それらの間を "u"の値に基づいて補間している
         double x1, x2, y1, y2;
         x1 = lerp(grad(p[aa], xf, yf, zf),
             grad(p[ba], xf - 1, yf, zf), u);
@@ -137,19 +142,51 @@ class Perlin
             grad(p[bb], xf - 1, yf - 1, zf),
             u);
         y1 = lerp(x1, x2, v);
-
+        
         x1 = lerp(grad(p[aa + 1], xf, yf, zf - 1),
             grad(p[ba + 1], xf - 1, yf, zf - 1), u);
         x2 = lerp(grad(p[ab + 1], xf, yf - 1, zf - 1),
             grad(p[bb + 1], xf - 1, yf - 1, zf - 1), u);
         y2 = lerp(x1, x2, v);
 
+        // 与えられたポイント(x, y, z)で生成されたパーリンノイズの最終値を返す
+        // 再びlerp関数を使用して、以前に生成された2つのノイズ値（y1、y2）の間を「w」値に基づいて補間する
+        // パーリンノイズアルゴリズムが1より大きい値を返すことがあるので、値を[0,1]の範囲に正規化する
         return (lerp(y1, y2, w) + 1) / 2;
     }
-
+    
+    /// <summary>
+    /// 与えられたハッシュ値に基づいて、3次元空間内の点の勾配を決定する
+    /// ハッシュ値は、並べ替え配列の中からあらかじめ決められた勾配ベクトルを探す
+    /// 勾配ベクトルと点の座標（x, y, z）の内積を計算
+    /// </summary>
+    /// <param name="hash"></param>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    /// <returns></returns>
     public static double grad(int hash, double x, double y, double z)
     {
-        return 0;
+        int h = hash & 15; // ハッシュ化された値の最初の4ビットを取得
+        double u = h < 8 ? x : y; // ハッシュの最上位ビット(MSB)が0であれば、u = xとし、そうでなければyとする
+        double v; // KenPerlinのオリジナルの実装では、これは別の条件演算子だったものを読みやすく拡張
+
+        // ドットプロダクトの計算で使用する座標（x,y,z）のいずれかを選択する
+        if (h < 4) // vの値はyに設定
+        {
+            v = y;
+        }
+        else if (h == 12 || h == 14) // vの値はxに設定
+        {
+            v = x;
+        }
+        else // vの値はzに設定
+        {
+            v = z;
+        }
+        
+        // 最後の2ビットでuとvが正か負かを判断し、それらの足した値を返す
+        return ((h&1) == 0 ? u : -u)+((h&2) == 0 ? v : -v); 
     }
 
     /// <summary>
