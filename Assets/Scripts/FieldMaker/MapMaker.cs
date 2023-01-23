@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TreeEditor;
 using UnityEngine;
 
 /// <summary>
@@ -78,8 +79,10 @@ public class MapMaker : MonoBehaviour
             float xSample = (cube.transform.localPosition.x + _seedX) / _undulation;
             float zSample = (cube.transform.localPosition.z + _seedZ) / _undulation;
 
-            float noise = Mathf.PerlinNoise(xSample, zSample);
+            var perlin = new MathfPerlin();
 
+            float noise = perlin.Noise(xSample, zSample);
+            
             y = _maxHeight * noise;
         }
         else // ランダムで決める

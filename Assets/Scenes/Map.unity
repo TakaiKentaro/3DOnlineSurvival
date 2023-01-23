@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &173354190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,8 +154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2ad62f2446bb05438226ce5cd1dd78b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rowsAndColumns: 200
-  _refInement: 0.01
+  _rowsAndColumns: 500
+  _refInement: 0.02
   _multipiler: 0.01
 --- !u!154 &173354191
 TerrainCollider:
@@ -411,7 +411,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1647855620
 MonoBehaviour:
   m_ObjectHideFlags: 0
