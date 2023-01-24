@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// ランダムにマップを生成するクラス
 /// </summary>
-public class MapMaker : MonoBehaviour
+public class MapGenerator : MonoBehaviour
 {
     [Header("シード値")]
     [SerializeField, Tooltip("シード値X")]
@@ -14,7 +14,7 @@ public class MapMaker : MonoBehaviour
     [SerializeField, Tooltip("シード値Z")]
     private float _seedZ;
 
-    [Header("サイズ")]
+    [Header("マップサイズ")]
     [SerializeField, Tooltip("幅")]
     private float _width = 50f;
     [SerializeField, Tooltip("深さ")]
@@ -29,11 +29,12 @@ public class MapMaker : MonoBehaviour
     private bool _isPerlinNoiseMap = true;
     [SerializeField, Tooltip("Y軸の滑らかにするか")]
     private bool _isSmoothness = false;
-    [SerializeField, Tooltip("コライダー判定")]
-    private bool _isCollider = false;
 
+    private GameObject[,] _fieldArray;
     private void Awake()
     {
+        _fieldArray = new GameObject[(int)_width, (int)_depth];
+        
         transform.localScale = new Vector3(_mapSize, _mapSize, _mapSize);
 
         _seedX = Random.value * 100f;
@@ -45,31 +46,15 @@ public class MapMaker : MonoBehaviour
             {
                 GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 cube.transform.localPosition = new Vector3(x, 0, z);
+                cube.transform.localScale = new Vector3(1, 5, 1);
                 cube.transform.SetParent(transform);
-
-                if (!_isCollider)
-                {
-                    Destroy(cube.GetComponent<BoxCollider>());
-                }
-
+                _fieldArray[x, z] = cube;
+                
                 //高さ設定
                 SetYPosition(cube);
             }
         }
     }
-
-    private void OnValidate()
-    {
-        if (!Application.isPlaying) { return; } // 実行中でなければスルー
-
-        transform.localScale = new Vector3(_mapSize, _mapSize, _mapSize);
-
-        foreach (Transform child in transform) // 各キューブの座標Yを変更
-        {
-            SetYPosition(child.gameObject);
-        }
-    }
-
     private void SetYPosition(GameObject cube)
     {
         float y = 0;
