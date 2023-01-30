@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IItemHolder : MonoBehaviour
+public interface IItemHolder
 {
-    public enum EquipSlot {
-        None,
-        Helmet,
-        Armor,
-        Weapon
-    }
+    void RemoveItem(Item item);
+
+    void AddItem(Item item);
+
+    bool CanAddItem();
+
 }
