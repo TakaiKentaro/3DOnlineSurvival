@@ -35,14 +35,14 @@ public class Item
     {
         if (!object.ReferenceEquals(itemHolder, null))
         {
-            //itemHolder.RemoveItem(this);
+            itemHolder.RemoveItem(this);
         }
     }
 
     public void MoveToAnotherItemHolder(IItemHolder newItemHolder)
     {
         RemoveFromItemHolder();
-        //newItemHolder.AddItem(this);
+        newItemHolder.AddItem(this);
     }
 
     /*public Sprite GetSprite()
