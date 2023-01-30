@@ -45,13 +45,13 @@ public class Item
         newItemHolder.AddItem(this);
     }
 
-    /*public Sprite GetSprite()
+    public Sprite GetSprite()
     {
         return GetSprite(itemType);
-    }*/
+    }
     
     
-    /*public static Sprite GetSprite(ItemType itemType)
+    public static Sprite GetSprite(ItemType itemType)
     {
         switch (itemType)
         {
@@ -62,9 +62,9 @@ public class Item
             case ItemType.Stone: return ItemAssets.Instance.s_Stone;
             
             //武器
-            case ItemType.Sword_Stone: return ItemAssets.Instance.s_Sword_Stone:
+            case ItemType.Sword_Stone: return ItemAssets.Instance.s_Sword_Stone;
         }
-    }*/
+    }
 
     public Color GetColor()
     {
