@@ -9,6 +9,7 @@ public class CraftingSystem : IItemHolder
 {
     public const int GRID_SIZE = 5;
 
+    private CraftingRecipeData _craftingRecipeData;
     public event EventHandler OnGridChange;
 
     private Dictionary<Item.ItemType, Item.ItemType[,]> _recipeDictionary;
@@ -16,6 +17,12 @@ public class CraftingSystem : IItemHolder
     private Item[,] _itemArray;
     private Item _outputItem;
 
+    public CraftingSystem()
+    {
+        _itemArray = new Item[GRID_SIZE, GRID_SIZE];
+
+        _recipeDictionary = new Dictionary<Item.ItemType, Item.ItemType[,]>();
+    }
 
     public bool IsEmpty(int x, int y)
     {
