@@ -17,7 +17,7 @@ public class CraftingSystem : IItemHolder
     private Item _outputItem;
 
 
-    public bool IsEmpty(int x,int y)
+    public bool IsEmpty(int x, int y)
     {
         return _itemArray[x, y] == null;
     }
@@ -29,52 +29,54 @@ public class CraftingSystem : IItemHolder
 
     public void SetItem(Item item, int x, int y)
     {
-        if (!object.ReferenceEquals(item, null))
+        if (item != null)
         {
             item.RemoveFromItemHolder();
             item.SetItemHolder(this);
         }
+
         _itemArray[x, y] = item;
-        //CreateOutput();
-        OnGridChange?.Invoke(this,EventArgs.Empty);
+        CreateOutput();
+        OnGridChange?.Invoke(this, EventArgs.Empty);
     }
 
     public void IncreaseItemAmount(int x, int y)
     {
         GetItem(x, y).amount++;
-        OnGridChange?.Invoke(this,EventArgs.Empty);
+        OnGridChange?.Invoke(this, EventArgs.Empty);
     }
 
     public void DecreaseItemAmount(int x, int y)
     {
-        if (!object.ReferenceEquals(GetItem(x, y), null))
+        if (GetItem(x, y) != null)
         {
             GetItem(x, y).amount--;
-            if (object.ReferenceEquals(GetItem(x, y), 0))
+            if (GetItem(x, y).amount == 0)
             {
                 RemoveItem(x, y);
             }
-            OnGridChange?.Invoke(this,EventArgs.Empty);
+
+            OnGridChange?.Invoke(this, EventArgs.Empty);
         }
     }
 
     public void RemoveItem(int x, int y)
     {
-        SetItem(null,x,y);
+        SetItem(null, x, y);
     }
 
     public bool TryAddItem(Item item, int x, int y)
     {
         if (IsEmpty(x, y))
         {
-            SetItem(item,x,y);
+            SetItem(item, x, y);
             return true;
         }
         else
         {
-            if (object.ReferenceEquals(item.itemType, GetItem(x, y).itemType))
+            if (item.itemType == GetItem(x, y).itemType)
             {
-                IncreaseItemAmount(x,y);
+                IncreaseItemAmount(x, y);
                 return true;
             }
             else
@@ -83,12 +85,96 @@ public class CraftingSystem : IItemHolder
             }
         }
     }
-    
-    
 
+    public void RemoveItem(Item item)
+    {
+        if (item == _outputItem)
+        {
+            ConsumeRecipeItems();
+            CreateOutput();
+            OnGridChange?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            for (int x = 0; x < GRID_SIZE; x++)
+            {
+                for (int y = 0; y < GRID_SIZE; y++)
+                {
+                    if (GetItem(x, y) == item)
+                    {
+                        RemoveItem(x, y);
+                    }
+                }
+            }
+        }
+    }
 
+    public void AddItem(Item item)
+    {
+    }
 
+    public bool CanAddItem()
+    {
+        return false;
+    }
 
+    private Item.ItemType GetRecipeOutput()
+    {
+        foreach (Item.ItemType recipeItemType in _recipeDictionary.Keys)
+        {
+            Item.ItemType[,] recipe = _recipeDictionary[recipeItemType];
 
+            bool completeRecipe = true;
+            for (int x = 0; x < GRID_SIZE; x++)
+            {
+                for (int y = 0; y < GRID_SIZE; y++)
+                {
+                    if (recipe[x, y] != Item.ItemType.None)
+                    {
+                        if (IsEmpty(x, y) || GetItem(x, y).itemType != recipe[x, y])
+                        {
+                            completeRecipe = false;
+                        }
+                    }
+                }
+            }
 
+            if (completeRecipe)
+            {
+                return recipeItemType;
+            }
+        }
+
+        return Item.ItemType.None;
+    }
+
+    private void CreateOutput()
+    {
+        Item.ItemType recipeOutput = GetRecipeOutput();
+        if (recipeOutput == Item.ItemType.None)
+        {
+            _outputItem = null;
+        }
+        else
+        {
+            _outputItem = new Item { itemType = recipeOutput };
+            _outputItem.SetItemHolder(this);
+        }
+    }
+
+    public Item GetOutputItem()
+    {
+        return _outputItem;
+    }
+
+    public void ConsumeRecipeItems()
+    {
+        for (int x = 0; x < GRID_SIZE; x++)
+        {
+            for (int y = 0; y < GRID_SIZE; y++)
+            {
+                DecreaseItemAmount(x, y);
+            }
+        }
+    }
 }
