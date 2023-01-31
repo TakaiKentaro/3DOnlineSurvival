@@ -33,7 +33,7 @@ public class Item
 
     public void RemoveFromItemHolder()
     {
-        if (!object.ReferenceEquals(itemHolder, null))
+        if (itemHolder != null)
         {
             itemHolder.RemoveItem(this);
         }
