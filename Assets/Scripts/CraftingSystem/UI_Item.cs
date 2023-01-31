@@ -40,7 +40,7 @@ public class UI_Item : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IE
     {
         _canvasGroup.alpha = 1f;
         _canvasGroup.blocksRaycasts = true;
-        //UI_ItemDrag.Instance.Hide();
+        UI_ItemDrag.Instance.Hide();
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -49,7 +49,7 @@ public class UI_Item : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IE
         {
             if (_item != null)
             {
-                /*if (_item.IsStackable())
+                if (_item.IsStackble())
                 {
                     if (_item.amount > 1)
                     {
@@ -57,11 +57,11 @@ public class UI_Item : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IE
                         {
                             int splitAmount = Mathf.FloorToInt(_item.amount / 2f);
                             _item.amount -= splitAmount;
-                            Item duplicateItem = new Item { itemType = _item.itemType, amount = splitAmount };
+                            Item duplicateItem = new Item{ itemType = _item.itemType, amount = splitAmount };
                             _item.GetItemHolder().AddItem(duplicateItem);
                         }
                     }
-                }*/
+                }
             }
         }
     }
@@ -96,7 +96,7 @@ public class UI_Item : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IE
     public void ShowItem(Item item)
     {
         this._item = item;
-        //SetSprite(Item.GetSprite(item.itemType));
-        //SetAmountText(item.amount);
+        SetSprite(Item.GetSprite(item.itemType));
+        SetAmountText(item.amount);
     }
 }
