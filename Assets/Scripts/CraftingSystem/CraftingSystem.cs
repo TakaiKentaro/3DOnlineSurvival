@@ -5,6 +5,9 @@ using ExitGames.Client.Photon.StructWrapping;
 using Unity.VisualScripting;
 using UnityEngine;
 
+/// <summary>
+/// ToDo クラフトレシピの格納を拡張しやすいように修正
+/// </summary>
 public class CraftingSystem : IItemHolder
 {
     public const int GRID_SIZE = 5;
@@ -22,6 +25,16 @@ public class CraftingSystem : IItemHolder
         _itemArray = new Item[GRID_SIZE, GRID_SIZE];
 
         _recipeDictionary = new Dictionary<Item.ItemType, Item.ItemType[,]>();
+        
+        // Stick
+        Item.ItemType[,] recipe = new Item.ItemType[GRID_SIZE, GRID_SIZE];
+        recipe[0, 4] = Item.ItemType.None;  recipe[1, 4] = Item.ItemType.None;  recipe[2, 4] = Item.ItemType.None;  recipe[3, 4] = Item.ItemType.None;  recipe[4, 4] = Item.ItemType.None;
+        recipe[0, 3] = Item.ItemType.None;  recipe[1, 3] = Item.ItemType.None;  recipe[2, 3] = Item.ItemType.None;  recipe[3, 3] = Item.ItemType.None;  recipe[4, 3] = Item.ItemType.None;
+        recipe[0, 2] = Item.ItemType.None;  recipe[1, 2] = Item.ItemType.None;  recipe[2, 2] = Item.ItemType.Stick;  recipe[3, 2] = Item.ItemType.None;  recipe[4, 2] = Item.ItemType.None;
+        recipe[0, 1] = Item.ItemType.None;  recipe[1, 1] = Item.ItemType.None;  recipe[2, 1] = Item.ItemType.Stick;  recipe[3, 1] = Item.ItemType.None;  recipe[4, 1] = Item.ItemType.None;
+        recipe[0, 0] = Item.ItemType.None;  recipe[1, 0] = Item.ItemType.None;  recipe[2, 0] = Item.ItemType.Stick;  recipe[3, 0] = Item.ItemType.None;  recipe[4, 0] = Item.ItemType.None;
+        _recipeDictionary[Item.ItemType.Stick] = recipe;
+
     }
 
     public bool IsEmpty(int x, int y)
