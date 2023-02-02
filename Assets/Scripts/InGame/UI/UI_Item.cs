@@ -93,7 +93,7 @@ public class UI_Item : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IE
         gameObject.SetActive(true);
     }
 
-    public void ShowItem(Item item)
+    public void SetItem(Item item)
     {
         this._item = item;
         SetSprite(Item.GetSprite(item.itemType));
