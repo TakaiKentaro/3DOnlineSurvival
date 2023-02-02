@@ -12,7 +12,7 @@ public class CraftingSystem : IItemHolder
     private CraftingRecipeData _craftingRecipeData;
     public event EventHandler OnGridChange;
 
-    private Dictionary<Item.ItemType, Item.ItemType[,]> _recipeDictionary;
+    public Dictionary<Item.ItemType, Item.ItemType[,]> _recipeDictionary;
 
     private Item[,] _itemArray;
     private Item _outputItem;
