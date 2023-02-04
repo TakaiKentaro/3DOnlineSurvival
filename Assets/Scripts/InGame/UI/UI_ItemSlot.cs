@@ -1,18 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class UI_ItemSlot : MonoBehaviour
+public class UI_ItemSlot : MonoBehaviour , IDropHandler
 {
-    // Start is called before the first frame update
-    void Start()
+    private Action _onDropAction;
+
+    public void SetOnDropAction(Action onDropAction)
     {
-        
+        this._onDropAction = onDropAction;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnDrop(PointerEventData eventData)
     {
-        
+        UI_ItemDrag.Instance.Hide();
+        _onDropAction();
     }
 }

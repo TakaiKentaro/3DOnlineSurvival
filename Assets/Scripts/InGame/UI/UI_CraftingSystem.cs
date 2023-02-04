@@ -8,24 +8,23 @@ using UnityEngine;
 public class UI_CraftingSystem : MonoBehaviour
 {
     [SerializeField] private Transform pfUI_Item;
-
+    [SerializeField] private  Transform _itemContainer;
+    [SerializeField] private Transform _gridContainer;
+    
     private Transform[,] _slotTransformArray;
     private Transform _outputSlotTransform;
-    private Transform _itemContainer;
     private CraftingSystem _craftingSystem;
 
     private void Awake()
     {
-        _itemContainer = transform.Find("ItemContainer");
-        Transform gridContainer = transform.Find("GridContainer");
-
         _slotTransformArray = new Transform[CraftingSystem.GRID_SIZE, CraftingSystem.GRID_SIZE];
 
         for (int x = 0; x < CraftingSystem.GRID_SIZE; x++)
         {
             for (int y = 0; y < CraftingSystem.GRID_SIZE; y++)
             {
-                _slotTransformArray[x,y]  = gridContainer.Find($"Grid_{x}_{y}");
+                _slotTransformArray[x,y]  = _gridContainer.Find($"Grid_{x}_{y}");
+                Debug.Log(_slotTransformArray[x,y]);
                 UI_CraftingItemSlot craftingItemSlot = _slotTransformArray[x, y].GetComponent<UI_CraftingItemSlot>();
                 craftingItemSlot.SetXY(x,y);
                 craftingItemSlot.OnItemDropped += UI_CraftingSystem_OnItemDropped;

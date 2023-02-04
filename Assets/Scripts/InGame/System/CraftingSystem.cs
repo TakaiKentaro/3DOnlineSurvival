@@ -30,10 +30,19 @@ public class CraftingSystem : IItemHolder
         Item.ItemType[,] recipe = new Item.ItemType[GRID_SIZE, GRID_SIZE];
         recipe[0, 4] = Item.ItemType.None;  recipe[1, 4] = Item.ItemType.None;  recipe[2, 4] = Item.ItemType.None;  recipe[3, 4] = Item.ItemType.None;  recipe[4, 4] = Item.ItemType.None;
         recipe[0, 3] = Item.ItemType.None;  recipe[1, 3] = Item.ItemType.None;  recipe[2, 3] = Item.ItemType.None;  recipe[3, 3] = Item.ItemType.None;  recipe[4, 3] = Item.ItemType.None;
-        recipe[0, 2] = Item.ItemType.None;  recipe[1, 2] = Item.ItemType.None;  recipe[2, 2] = Item.ItemType.Stick;  recipe[3, 2] = Item.ItemType.None;  recipe[4, 2] = Item.ItemType.None;
-        recipe[0, 1] = Item.ItemType.None;  recipe[1, 1] = Item.ItemType.None;  recipe[2, 1] = Item.ItemType.Stick;  recipe[3, 1] = Item.ItemType.None;  recipe[4, 1] = Item.ItemType.None;
-        recipe[0, 0] = Item.ItemType.None;  recipe[1, 0] = Item.ItemType.None;  recipe[2, 0] = Item.ItemType.Stick;  recipe[3, 0] = Item.ItemType.None;  recipe[4, 0] = Item.ItemType.None;
+        recipe[0, 2] = Item.ItemType.None;  recipe[1, 2] = Item.ItemType.None;  recipe[2, 2] = Item.ItemType.Wood;  recipe[3, 2] = Item.ItemType.None;  recipe[4, 2] = Item.ItemType.None;
+        recipe[0, 1] = Item.ItemType.None;  recipe[1, 1] = Item.ItemType.None;  recipe[2, 1] = Item.ItemType.Wood;  recipe[3, 1] = Item.ItemType.None;  recipe[4, 1] = Item.ItemType.None;
+        recipe[0, 0] = Item.ItemType.None;  recipe[1, 0] = Item.ItemType.None;  recipe[2, 0] = Item.ItemType.Wood;  recipe[3, 0] = Item.ItemType.None;  recipe[4, 0] = Item.ItemType.None;
         _recipeDictionary[Item.ItemType.Stick] = recipe;
+        
+        // SWORD_STONE
+        recipe = new Item.ItemType[GRID_SIZE, GRID_SIZE];
+        recipe[0, 4] = Item.ItemType.None;  recipe[1, 4] = Item.ItemType.None;  recipe[2, 4] = Item.ItemType.Stone;  recipe[3, 4] = Item.ItemType.None;  recipe[4, 4] = Item.ItemType.None;
+        recipe[0, 3] = Item.ItemType.None;  recipe[1, 3] = Item.ItemType.None;  recipe[2, 3] = Item.ItemType.Stone;  recipe[3, 3] = Item.ItemType.None;  recipe[4, 3] = Item.ItemType.None;
+        recipe[0, 2] = Item.ItemType.None;  recipe[1, 2] = Item.ItemType.None;  recipe[2, 2] = Item.ItemType.Stone;  recipe[3, 2] = Item.ItemType.None;  recipe[4, 2] = Item.ItemType.None;
+        recipe[0, 1] = Item.ItemType.None;  recipe[1, 1] = Item.ItemType.Wood;  recipe[2, 1] = Item.ItemType.Stick;  recipe[3, 1] = Item.ItemType.Wood;  recipe[4, 1] = Item.ItemType.None;
+        recipe[0, 0] = Item.ItemType.None;  recipe[1, 0] = Item.ItemType.None;  recipe[2, 0] = Item.ItemType.Stick;  recipe[3, 0] = Item.ItemType.None;  recipe[4, 0] = Item.ItemType.None;
+        _recipeDictionary[Item.ItemType.Sword_Stone] = recipe;
 
     }
 
