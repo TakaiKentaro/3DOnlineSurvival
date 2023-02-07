@@ -167,4 +167,45 @@ public class Button_UI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
                 break;
         }
     }
+
+    public class InterceptActionHandler
+    {
+        private Action _removeInterceptFunc;
+
+        public InterceptActionHandler(Action removeInterceptFunc)
+        {
+            this._removeInterceptFunc = removeInterceptFunc;
+        }
+
+        public void RemoveIntercept()
+        {
+            _removeInterceptFunc();
+        }
+    }
+
+    public InterceptActionHandler InterceptActionClick(Func<bool> testPassthrougFunc)
+    {
+        return InterceptAction("ClickFunc", testPassthrougFunc);
+    }
+
+    public InterceptActionHandler InterceptAction(string fieldName, Func<bool> testPassthrougFunc)
+    {
+        return InterceptAction(GetType().GetField(fieldName), testPassthrougFunc);
+    }
+
+    public InterceptActionHandler InterceptAction(System.Reflection.FieldInfo fieldInfo, Func<bool> testPassthroughFunc)
+    {
+        Action backFunc = fieldInfo.GetValue(this) as Action;
+        InterceptActionHandler interceptActionHandler =
+            new InterceptActionHandler(() => fieldInfo.SetValue(this, backFunc));
+        fieldInfo.SetValue(this,(Action)delegate()
+        {
+            if (testPassthroughFunc())
+            {
+                interceptActionHandler.RemoveIntercept();
+                backFunc();
+            }
+        });
+        return interceptActionHandler;
+    }
 }

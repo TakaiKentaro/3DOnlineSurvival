@@ -1,18 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TestSystem : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private TestPlayer _player;
+    
+    [SerializeField] private UI_Inventory _uiInventory;
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField] private UI_CraftingSystem _uiCraftingSystem;
+
+    private void Start()
     {
+        _uiInventory.SetPlayer(_player);
+        _uiInventory.SetInventory(_player.GetInventory());
+
+        CraftingSystem craftingSystem = new CraftingSystem();
         
+        _uiCraftingSystem.SetCraftingSystem(craftingSystem);
     }
 }

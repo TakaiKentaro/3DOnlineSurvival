@@ -28,7 +28,7 @@ public class UI_ItemDrag : MonoBehaviour
         _amountText = transform.Find("AmountText").GetComponent<TextMeshProUGUI>();
         _parentRectTransform = transform.parent.GetComponent<RectTransform>();
 
-        //Hide();
+        Hide();
     }
 
     private void Update()
@@ -38,7 +38,8 @@ public class UI_ItemDrag : MonoBehaviour
 
     private void UpdatePosition()
     {
-        
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(_parentRectTransform, Input.mousePosition, null, out Vector2 localPoint);
+        transform.localPosition = localPoint;
     }
 
     public Item GetItem()

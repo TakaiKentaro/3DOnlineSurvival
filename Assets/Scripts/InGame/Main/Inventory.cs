@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour , IItemHolder
+public class Inventory : IItemHolder
 {
     public event EventHandler OnItemListChanged;
 
@@ -17,8 +17,10 @@ public class Inventory : MonoBehaviour , IItemHolder
     {
         this._useItemAction = useItemAction;
         _itemsList = new List<Item>();
-
+        
         _inventorySlotArray = new InventorySlot[intventorySlotCount];
+
+        Debug.Log(intventorySlotCount);
         for (int i = 0; i < intventorySlotCount; i++)
         {
             _inventorySlotArray[i] = new InventorySlot(i);
@@ -92,19 +94,20 @@ public class Inventory : MonoBehaviour , IItemHolder
             item.SetItemHolder(this);
             GetEmptyInventorySlot().SetItem(item);
         }
-        OnItemListChanged?.Invoke(this,EventArgs.Empty);
+
+        OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void RemoveItem(Item item)
     {
         GetInventorySlotWithItem(item).RemoveItem();
         _itemsList.Remove(item);
-        OnItemListChanged?.Invoke(this,EventArgs.Empty);
+        OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void RemoveItemAmount(Item.ItemType itemType, int amount)
     {
-        RemoveItemRemoveAmount(new Item{itemType = itemType,amount = amount});
+        RemoveItemRemoveAmount(new Item { itemType = itemType, amount = amount });
     }
 
     public void RemoveItemRemoveAmount(Item item)
@@ -132,7 +135,8 @@ public class Inventory : MonoBehaviour , IItemHolder
             GetInventorySlotWithItem(item).RemoveItem();
             _itemsList.Remove(item);
         }
-        OnItemListChanged?.Invoke(this,EventArgs.Empty);
+
+        OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void AddItem(Item item, InventorySlot inventorySlot)
@@ -140,8 +144,8 @@ public class Inventory : MonoBehaviour , IItemHolder
         _itemsList.Add(item);
         item.SetItemHolder(this);
         inventorySlot.SetItem(item);
-        
-        OnItemListChanged?.Invoke(this,EventArgs.Empty);
+
+        OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void UseItem(Item item)

@@ -11,17 +11,17 @@ public class UI_Inventory : MonoBehaviour
     [SerializeField] private Transform _itemSlotTemplate;
 
     private Inventory _inventory;
-    // private PlayerController _player;
+    private TestPlayer _player;
 
     private void Awake()
     {
         _itemSlotTemplate.gameObject.SetActive(false);
     }
 
-    /*public void SetPlayer(PlayerController player)
+    public void SetPlayer(TestPlayer player)
     {
         this._player = player;
-    } */
+    } 
 
     public void SetInventory(Inventory inventory)
     {
@@ -51,13 +51,17 @@ public class UI_Inventory : MonoBehaviour
 
         int x = 0;
         int y = 0;
-        float itemSlotCellSize = 54f;
+        float itemSlotCellSize = 100f;
         foreach (Inventory.InventorySlot inventorySlot in _inventory.GetInventorySlotArray())
         {
+            // Debug.Log(_inventory.GetInventorySlotArray());
+
             Item item = inventorySlot.GetItem();
 
             RectTransform itemSlotRectTransform =
                 Instantiate(_itemSlotTemplate, _itemSlotContainer).GetComponent<RectTransform>();
+            itemSlotRectTransform.gameObject.SetActive(true);
+
             itemSlotRectTransform.GetComponent<Button_UI>().ClickFunc = () =>
             {
                 //_inventory.UseItem(item);
@@ -103,7 +107,7 @@ public class UI_Inventory : MonoBehaviour
             {
                 Item draggedItem = UI_ItemDrag.Instance.GetItem();
                 draggedItem.RemoveFromItemHolder();
-                _inventory.AddItem(draggedItem,tmpInventorySlot);
+                _inventory.AddItem(draggedItem, tmpInventorySlot);
             });
 
             x++;
@@ -111,7 +115,7 @@ public class UI_Inventory : MonoBehaviour
             if (x >= itemRowMax)
             {
                 x = 0;
-                x++;
+                y++;
             }
         }
     }
