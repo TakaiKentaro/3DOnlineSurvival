@@ -28,7 +28,7 @@ public class UI_Item : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IE
     {
         _canvasGroup.alpha = 0.5f;
         _canvasGroup.blocksRaycasts = false;
-        //UI_ItemDrag.Instance.Show(_item);
+            UI_ItemDrag.Instance.Show(_item);
     }
 
     public void OnDrag(PointerEventData eventData)

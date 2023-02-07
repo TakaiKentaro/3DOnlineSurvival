@@ -1,21 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using ExitGames.Client.Photon.StructWrapping;
-using Unity.VisualScripting;
 using UnityEngine;
 
-/// <summary>
-/// ToDo クラフトレシピの格納を拡張しやすいように修正
-/// </summary>
 public class CraftingSystem : IItemHolder
 {
     public const int GRID_SIZE = 5;
 
-    private CraftingRecipeData _craftingRecipeData;
-    public event EventHandler OnGridChange;
+    public event EventHandler OnGridChanged;
 
-    public Dictionary<Item.ItemType, Item.ItemType[,]> _recipeDictionary;
+    private Dictionary<Item.ItemType, Item.ItemType[,]> _recipeDictionary;
 
     private Item[,] _itemArray;
     private Item _outputItem;
@@ -25,7 +19,7 @@ public class CraftingSystem : IItemHolder
         _itemArray = new Item[GRID_SIZE, GRID_SIZE];
 
         _recipeDictionary = new Dictionary<Item.ItemType, Item.ItemType[,]>();
-        
+
         // Stick
         Item.ItemType[,] recipe = new Item.ItemType[GRID_SIZE, GRID_SIZE];
         recipe[0, 4] = Item.ItemType.None;  recipe[1, 4] = Item.ItemType.None;  recipe[2, 4] = Item.ItemType.None;  recipe[3, 4] = Item.ItemType.None;  recipe[4, 4] = Item.ItemType.None;
@@ -43,7 +37,6 @@ public class CraftingSystem : IItemHolder
         recipe[0, 1] = Item.ItemType.None;  recipe[1, 1] = Item.ItemType.Wood;  recipe[2, 1] = Item.ItemType.Stick;  recipe[3, 1] = Item.ItemType.Wood;  recipe[4, 1] = Item.ItemType.None;
         recipe[0, 0] = Item.ItemType.None;  recipe[1, 0] = Item.ItemType.None;  recipe[2, 0] = Item.ItemType.Stick;  recipe[3, 0] = Item.ItemType.None;  recipe[4, 0] = Item.ItemType.None;
         _recipeDictionary[Item.ItemType.Sword_Stone] = recipe;
-
     }
 
     public bool IsEmpty(int x, int y)
@@ -66,13 +59,13 @@ public class CraftingSystem : IItemHolder
 
         _itemArray[x, y] = item;
         CreateOutput();
-        OnGridChange?.Invoke(this, EventArgs.Empty);
+        OnGridChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void IncreaseItemAmount(int x, int y)
     {
         GetItem(x, y).amount++;
-        OnGridChange?.Invoke(this, EventArgs.Empty);
+        OnGridChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void DecreaseItemAmount(int x, int y)
@@ -84,8 +77,7 @@ public class CraftingSystem : IItemHolder
             {
                 RemoveItem(x, y);
             }
-
-            OnGridChange?.Invoke(this, EventArgs.Empty);
+            OnGridChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -119,18 +111,21 @@ public class CraftingSystem : IItemHolder
     {
         if (item == _outputItem)
         {
+            // 出力したレシピを消す
             ConsumeRecipeItems();
             CreateOutput();
-            OnGridChange?.Invoke(this, EventArgs.Empty);
+            OnGridChanged?.Invoke(this, EventArgs.Empty);
         }
         else
         {
+            // グリッドからアイテムを消す
             for (int x = 0; x < GRID_SIZE; x++)
             {
                 for (int y = 0; y < GRID_SIZE; y++)
                 {
                     if (GetItem(x, y) == item)
                     {
+                        // Removed this one
                         RemoveItem(x, y);
                     }
                 }
@@ -147,6 +142,7 @@ public class CraftingSystem : IItemHolder
         return false;
     }
 
+
     private Item.ItemType GetRecipeOutput()
     {
         foreach (Item.ItemType recipeItemType in _recipeDictionary.Keys)
@@ -160,8 +156,10 @@ public class CraftingSystem : IItemHolder
                 {
                     if (recipe[x, y] != Item.ItemType.None)
                     {
+                        // レシピのアイテム
                         if (IsEmpty(x, y) || GetItem(x, y).itemType != recipe[x, y])
                         {
+                            // アイテム欄が空もしくは、 異なるItemType
                             completeRecipe = false;
                         }
                     }

@@ -24,7 +24,6 @@ public class UI_CraftingSystem : MonoBehaviour
             for (int y = 0; y < CraftingSystem.GRID_SIZE; y++)
             {
                 _slotTransformArray[x,y]  = _gridContainer.Find($"Grid_{x}_{y}");
-                Debug.Log(_slotTransformArray[x,y]);
                 UI_CraftingItemSlot craftingItemSlot = _slotTransformArray[x, y].GetComponent<UI_CraftingItemSlot>();
                 craftingItemSlot.SetXY(x,y);
                 craftingItemSlot.OnItemDropped += UI_CraftingSystem_OnItemDropped;
@@ -41,7 +40,7 @@ public class UI_CraftingSystem : MonoBehaviour
     public void SetCraftingSystem(CraftingSystem craftingSystem)
     {
         this._craftingSystem = craftingSystem;
-        craftingSystem.OnGridChange += CraftingSystem_OnGridChanged;
+        craftingSystem.OnGridChanged += CraftingSystem_OnGridChanged;
 
         UpdateVisual();
     }
@@ -88,6 +87,7 @@ public class UI_CraftingSystem : MonoBehaviour
         RectTransform itemRectTransform = itemTransform.GetComponent<RectTransform>();
         itemRectTransform.anchoredPosition = _slotTransformArray[x, y].GetComponent<RectTransform>().anchoredPosition;
         itemTransform.GetComponent<UI_Item>().SetItem(item);
+        Debug.Log(x+","+y+"に"+item.itemType);
     }
 
     private void CreatItemOutput(Item item)
