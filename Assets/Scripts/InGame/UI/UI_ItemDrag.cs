@@ -1,9 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using TMPro;
 
 public class UI_ItemDrag : MonoBehaviour
 {
@@ -65,6 +65,7 @@ public class UI_ItemDrag : MonoBehaviour
         }
         else
         {
+            // More than 1
             _amountText.text = amount.ToString();
         }
     }
@@ -77,7 +78,7 @@ public class UI_ItemDrag : MonoBehaviour
     public void Show(Item item)
     {
         gameObject.SetActive(true);
-        
+
         SetItem(item);
         SetSprite(item.GetSprite());
         SetAmountText(item.amount);

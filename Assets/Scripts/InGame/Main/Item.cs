@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Photon.Pun.Demo.PunBasics;
-using UnityEditor;
 using UnityEngine;
 
 [Serializable]
@@ -21,6 +19,7 @@ public class Item
     public int amount = 1;
     private IItemHolder itemHolder;
 
+
     public void SetItemHolder(IItemHolder itemHolder)
     {
         this.itemHolder = itemHolder;
@@ -35,6 +34,7 @@ public class Item
     {
         if (itemHolder != null)
         {
+            // Remove from current Item Holder
             itemHolder.RemoveItem(this);
         }
     }
@@ -45,12 +45,12 @@ public class Item
         newItemHolder.AddItem(this);
     }
 
+
     public Sprite GetSprite()
     {
         return GetSprite(itemType);
     }
-    
-    
+
     public static Sprite GetSprite(ItemType itemType)
     {
         switch (itemType)
@@ -83,7 +83,7 @@ public class Item
         }
     }
 
-    public bool IsStackble()
+    public bool IsStackable()
     {
         return IsStackble(itemType);
     }
@@ -118,26 +118,26 @@ public class Item
                 return 0;
         }
     }
-
+    
     public override string ToString()
     {
         return itemType.ToString();
     }
 
     /*public CharacterEquipment.EquipSlot GetEquipSlot()
-    {
-        switch (itemType)
-        {
-         
-            default:
-                return CharacterEquipment.EquipSlot.None;
+   {
+       switch (itemType)
+       {
         
-                return CharacterEquipment.EquipSlot.Armor;
-        
-                return CharacterEquipment.EquipSlot.Helmet;
+           default:
+               return CharacterEquipment.EquipSlot.None;
+       
+               return CharacterEquipment.EquipSlot.Armor;
+       
+               return CharacterEquipment.EquipSlot.Helmet;
 
-            case ItemType.Sword_Stone:
-                return CharacterEquipment.EquipSlot.Wepon;   
-        }
-    }*/
+           case ItemType.Sword_Stone:
+               return CharacterEquipment.EquipSlot.Wepon;   
+       }
+   }*/
 }

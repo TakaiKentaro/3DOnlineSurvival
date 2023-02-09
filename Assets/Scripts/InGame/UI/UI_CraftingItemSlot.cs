@@ -22,7 +22,7 @@ public class UI_CraftingItemSlot : MonoBehaviour, IDropHandler
     {
         UI_ItemDrag.Instance.Hide();
         Item item = UI_ItemDrag.Instance.GetItem();
-        OnItemDropped?.Invoke(this, new OnItemDroppedEventArgs{ item = item, x = x, y = y });
+        OnItemDropped?.Invoke(this, new OnItemDroppedEventArgs { item = item, x = x, y = y });
     }
 
     public void SetXY(int x, int y)

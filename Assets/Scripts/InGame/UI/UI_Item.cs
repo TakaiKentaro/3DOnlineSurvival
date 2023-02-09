@@ -49,7 +49,7 @@ public class UI_Item : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IE
         {
             if (_item != null)
             {
-                if (_item.IsStackble())
+                if (_item.IsStackable())
                 {
                     if (_item.amount > 1)
                     {

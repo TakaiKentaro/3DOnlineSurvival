@@ -1,27 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 public class Inventory : IItemHolder
 {
     public event EventHandler OnItemListChanged;
 
-    private List<Item> _itemsList;
+    private List<Item> _itemList;
     private Action<Item> _useItemAction;
     public InventorySlot[] _inventorySlotArray;
 
-    public Inventory(Action<Item> useItemAction, int intventorySlotCount)
+    public Inventory(Action<Item> useItemAction, int inventorySlotCount)
     {
         this._useItemAction = useItemAction;
-        _itemsList = new List<Item>();
-        
-        _inventorySlotArray = new InventorySlot[intventorySlotCount];
+        _itemList = new List<Item>();
 
-        Debug.Log(intventorySlotCount);
-        for (int i = 0; i < intventorySlotCount; i++)
+        _inventorySlotArray = new InventorySlot[inventorySlotCount];
+        for (int i = 0; i < inventorySlotCount; i++)
         {
             _inventorySlotArray[i] = new InventorySlot(i);
         }
@@ -61,7 +57,7 @@ public class Inventory : IItemHolder
 
     public void AddItem(Item item)
     {
-        _itemsList.Add(item);
+        _itemList.Add(item);
         item.SetItemHolder(this);
         GetEmptyInventorySlot().SetItem(item);
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
@@ -69,28 +65,29 @@ public class Inventory : IItemHolder
 
     public void AddItemMergeAmount(Item item)
     {
-        if (item.IsStackble())
+        // Adds an Item and increases amount if same ItemType already present
+        if (item.IsStackable())
         {
-            bool itemAlreadyInInvantory = false;
-            foreach (Item inventoryItem in _itemsList)
+            bool itemAlreadyInInventory = false;
+            foreach (Item inventoryItem in _itemList)
             {
                 if (inventoryItem.itemType == item.itemType)
                 {
                     inventoryItem.amount += item.amount;
-                    itemAlreadyInInvantory = true;
+                    itemAlreadyInInventory = true;
                 }
             }
 
-            if (!itemAlreadyInInvantory)
+            if (!itemAlreadyInInventory)
             {
-                _itemsList.Add(item);
+                _itemList.Add(item);
                 item.SetItemHolder(this);
                 GetEmptyInventorySlot().SetItem(item);
             }
         }
         else
         {
-            _itemsList.Add(item);
+            _itemList.Add(item);
             item.SetItemHolder(this);
             GetEmptyInventorySlot().SetItem(item);
         }
@@ -101,7 +98,7 @@ public class Inventory : IItemHolder
     public void RemoveItem(Item item)
     {
         GetInventorySlotWithItem(item).RemoveItem();
-        _itemsList.Remove(item);
+        _itemList.Remove(item);
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -112,28 +109,28 @@ public class Inventory : IItemHolder
 
     public void RemoveItemRemoveAmount(Item item)
     {
-        if (item.IsStackble())
+        if (item.IsStackable())
         {
-            Item itemInventory = null;
-            foreach (Item inventoryItem in _itemsList)
+            Item itemInInventory = null;
+            foreach (Item inventoryItem in _itemList)
             {
                 if (inventoryItem.itemType == item.itemType)
                 {
                     inventoryItem.amount -= item.amount;
-                    itemInventory = inventoryItem;
+                    itemInInventory = inventoryItem;
                 }
             }
 
-            if (itemInventory != null && itemInventory.amount <= 0)
+            if (itemInInventory != null && itemInInventory.amount <= 0)
             {
-                GetInventorySlotWithItem(itemInventory).RemoveItem();
-                _itemsList.Remove(itemInventory);
+                GetInventorySlotWithItem(itemInInventory).RemoveItem();
+                _itemList.Remove(itemInInventory);
             }
         }
         else
         {
             GetInventorySlotWithItem(item).RemoveItem();
-            _itemsList.Remove(item);
+            _itemList.Remove(item);
         }
 
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
@@ -141,7 +138,8 @@ public class Inventory : IItemHolder
 
     public void AddItem(Item item, InventorySlot inventorySlot)
     {
-        _itemsList.Add(item);
+        // Add Item to a specific Inventory slot
+        _itemList.Add(item);
         item.SetItemHolder(this);
         inventorySlot.SetItem(item);
 
@@ -155,7 +153,7 @@ public class Inventory : IItemHolder
 
     public List<Item> GetItemList()
     {
-        return _itemsList;
+        return _itemList;
     }
 
     public InventorySlot[] GetInventorySlotArray()
@@ -167,6 +165,7 @@ public class Inventory : IItemHolder
     {
         return GetEmptyInventorySlot() != null;
     }
+
 
     /// <summary>
     /// １つのインベントリスロットを表す
