@@ -38,7 +38,6 @@ public class UI_CraftingSystem : MonoBehaviour
         craftingSystem.OnGridChanged += CraftingSystem_OnGridChanged;
 
         UpdateVisual();
-        
     }
 
     private void CraftingSystem_OnGridChanged(object sender, System.EventArgs e)
@@ -52,7 +51,7 @@ public class UI_CraftingSystem : MonoBehaviour
     }
 
     private void UpdateVisual()
-    {   
+    {
         // 古いアイテムを削除
         foreach (Transform child in _itemContainer)
         {
@@ -83,15 +82,14 @@ public class UI_CraftingSystem : MonoBehaviour
         RectTransform itemRectTransform = itemTransform.GetComponent<RectTransform>();
         itemRectTransform.anchoredPosition = _slotTransformArray[x, y].GetComponent<RectTransform>().anchoredPosition;
         itemTransform.GetComponent<UI_Item>().SetItem(item);
-        Debug.Log(x+","+y+"に"+item.itemType);
+        Debug.Log(x + "," + y + "に" + item.itemType);
     }
 
     private void CreateItemOutput(Item item)
     {
         Transform itemTransform = Instantiate(pfUI_Item, _itemContainer);
         RectTransform itemRectTransform = itemTransform.GetComponent<RectTransform>();
-        //itemRectTransform.anchoredPosition = _outputSlotTransform.GetComponent<RectTransform>().anchoredPosition;
-        itemRectTransform.anchoredPosition = this.gameObject.GetComponent<RectTransform>().anchoredPosition;
+        itemRectTransform.anchoredPosition = _outputSlotTransform.GetComponent<RectTransform>().anchoredPosition;
         itemTransform.localScale = Vector3.one * 1.5f;
         itemTransform.GetComponent<UI_Item>().SetItem(item);
     }
