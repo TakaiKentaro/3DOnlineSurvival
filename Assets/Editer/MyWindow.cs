@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening.Plugins.Core.PathCore;
+using Photon.Pun;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -8,74 +10,111 @@ using UnityEngine;
 [CustomEditor(typeof(CraftingSystem))]
 public class MyWindow : EditorWindow
 {
+    
+    Item.ItemType[,] itemTypes = new Item.ItemType[5, 5];
+    Item.ItemType recepi = Item.ItemType.None;
+    private string assetName = "";
     [MenuItem("Window/CraftRecipeGenerator")]
-	static void Open()
-	{
-		var window = GetWindow<MyWindow>();
-		window.titleContent = new GUIContent("CraftRecipeGenerator");
-	}
+    static void Open()
+    {
+        var window = GetWindow<MyWindow>();
+        window.titleContent = new GUIContent("CraftRecipeGenerator");
+    }
 
-	void OnGUI()
-	{
-		EditorGUILayout.LabelField( "エディタ拡張はじめました" );
-		
-		EditorGUILayout.BeginVertical(GUI.skin.box);
-		{
-			EditorGUILayout.LabelField( "SelectGridItem" );
-			
-			EditorGUILayout.BeginHorizontal( GUI.skin.box );
-			{
-				if( GUILayout.Button("Grid_0_4" ) ){Debug.Log( "Grid_0_4" );}
-				if( GUILayout.Button("Grid_1_4" ) ){Debug.Log( "Grid_1_4" );}
-				if( GUILayout.Button("Grid_2_4" ) ){Debug.Log( "Grid_2_4" );}
-				if( GUILayout.Button("Grid_3_4" ) ){Debug.Log( "Grid_3_4" );}
-				if( GUILayout.Button("Grid_4_4" ) ){Debug.Log( "Grid_4_4" );}
-			}
-			EditorGUILayout.EndHorizontal();
-			
-			EditorGUILayout.BeginHorizontal( GUI.skin.box );
-			{
-				if( GUILayout.Button("Grid_0_3" ) ){Debug.Log( "Grid_0_3" );}
-				if( GUILayout.Button("Grid_1_3" ) ){Debug.Log( "Grid_1_3" );}
-				if( GUILayout.Button("Grid_2_3" ) ){Debug.Log( "Grid_2_3" );}
-				if( GUILayout.Button("Grid_3_3" ) ){Debug.Log( "Grid_3_3" );}
-				if( GUILayout.Button("Grid_4_3" ) ){Debug.Log( "Grid_4_3" );}
-			}
-			EditorGUILayout.EndHorizontal();
-			
-			EditorGUILayout.BeginHorizontal( GUI.skin.box );
-			{
-				if( GUILayout.Button("Grid_0_2" ) ){Debug.Log( "Grid_0_2" );}
-				if( GUILayout.Button("Grid_1_2" ) ){Debug.Log( "Grid_1_2" );}
-				if( GUILayout.Button("Grid_2_2" ) ){Debug.Log( "Grid_2_2" );}
-				if( GUILayout.Button("Grid_3_2" ) ){Debug.Log( "Grid_3_2" );}
-				if( GUILayout.Button("Grid_4_2" ) ){Debug.Log( "Grid_4_2" );}
-			}
-			EditorGUILayout.EndHorizontal();
-			
-			EditorGUILayout.BeginHorizontal( GUI.skin.box );
-			{
-				if( GUILayout.Button("Grid_0_1" ) ){Debug.Log( "Grid_0_1" );}
-				if( GUILayout.Button("Grid_1_1" ) ){Debug.Log( "Grid_1_1" );}
-				if( GUILayout.Button("Grid_2_1" ) ){Debug.Log( "Grid_2_1" );}
-				if( GUILayout.Button("Grid_3_1" ) ){Debug.Log( "Grid_3_1" );}
-				if( GUILayout.Button("Grid_4_1" ) ){Debug.Log( "Grid_4_1" );}
-			}
-			EditorGUILayout.EndHorizontal();
-			
-			EditorGUILayout.BeginHorizontal( GUI.skin.box );
-			{
-				if( GUILayout.Button("Grid_0_0" ) ){Debug.Log( "Grid_0_0" );}
-				if( GUILayout.Button("Grid_1_0" ) ){Debug.Log( "Grid_1_0" );}
-				if( GUILayout.Button("Grid_2_0" ) ){Debug.Log( "Grid_2_0" );}
-				if( GUILayout.Button("Grid_3_0" ) ){Debug.Log( "Grid_3_0" );}
-				if( GUILayout.Button("Grid_4_0" ) ){Debug.Log( "Grid_4_0" );}
-			}
-			EditorGUILayout.EndHorizontal();
-			
-			if(GUILayout.Button("生成するアイテム",GUILayout.Width(100),GUILayout.Height(100))){Debug.Log("アイテム生成");}
-			
-		}
-		EditorGUILayout.EndVertical();
-	}
+    void OnGUI()
+    {
+        GUILayout.Label( "クラフトレシピ" );
+        
+        EditorGUILayout.BeginHorizontal(GUI.skin.box);
+        {
+            itemTypes[0, 4] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[0, 4]);
+            itemTypes[1, 4] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[1, 4]);
+            itemTypes[2, 4] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[2, 4]);
+            itemTypes[3, 4] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[3, 4]);
+            itemTypes[4, 4] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[4, 4]);
+        }
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal(GUI.skin.box);
+        {
+            itemTypes[0, 3] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[0, 3]);
+            itemTypes[1, 3] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[1, 3]);
+            itemTypes[2, 3] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[2, 3]);
+            itemTypes[3, 3] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[3, 3]);
+            itemTypes[4, 3] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[4, 3]);
+        }
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal(GUI.skin.box);
+        {
+            itemTypes[0, 2] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[0, 2]);
+            itemTypes[1, 2] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[1, 2]);
+            itemTypes[2, 2] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[2, 2]);
+            itemTypes[3, 2] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[3, 2]);
+            itemTypes[4, 2] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[4, 2]);
+        }
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal(GUI.skin.box);
+        {
+            itemTypes[0, 1] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[0, 1]);
+            itemTypes[1, 1] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[1, 1]);
+            itemTypes[2, 1] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[2, 1]);
+            itemTypes[3, 1] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[3, 1]);
+            itemTypes[4, 1] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[4, 1]);
+        }
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal(GUI.skin.box);
+        {
+            itemTypes[0, 0] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[0, 0]);
+            itemTypes[1, 0] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[1, 0]);
+            itemTypes[2, 0] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[2, 0]);
+            itemTypes[3, 0] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[3, 0]);
+            itemTypes[4, 0] = (Item.ItemType)EditorGUILayout.EnumPopup(itemTypes[4, 0]);
+        }
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal(GUI.skin.box);
+        recepi = (Item.ItemType)EditorGUILayout.EnumPopup("作成アイテム",recepi);
+        if (GUILayout.Button("リセット"))
+        {
+            Reset();
+        }
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal(GUI.skin.box);
+        GUILayout.Label( "データのアセット名" );
+        assetName = (string)GUILayout.TextField(assetName);
+        EditorGUILayout.EndHorizontal();
+        
+        if(GUILayout.Button("レシピ作成",GUILayout.Height(100)))
+        {
+            Debug.Log("レシピ作成");
+            CreatRecepi();
+        }
+
+        void CreatRecepi()
+        {
+            CraftingRecipeData _assets = CreateInstance<CraftingRecipeData>();    
+            _assets._itemTypes = itemTypes;
+            _assets._recepi = recepi;
+            AssetDatabase.CreateAsset(_assets,$"Assets/CraftingRecipe/{assetName}.asset");
+            AssetDatabase.Refresh();
+            Reset();
+        }
+
+        void Reset()
+        {
+            for (int i = 0; i < itemTypes.GetLength(0); i++)
+            {
+                for (int j = 0; j < itemTypes.GetLength(1); j++)
+                {
+                    itemTypes[i, j] = Item.ItemType.None;
+                }
+            }
+            recepi = Item.ItemType.None;
+            assetName = "";
+        }
+    }
 }
