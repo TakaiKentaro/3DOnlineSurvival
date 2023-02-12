@@ -98,8 +98,8 @@ public class MyWindow : EditorWindow
         {
             CraftingRecipeData _assets = CreateInstance<CraftingRecipeData>();    
             _assets._itemTypes = itemTypes;
-            _assets._recepi = recepi;
-            AssetDatabase.CreateAsset(_assets,$"Assets/CraftingRecipe/{assetName}.asset");
+            _assets._recipe = recepi;
+            AssetDatabase.CreateAsset(_assets,$"Assets/Resources/{assetName}.asset");
             AssetDatabase.Refresh();
             Reset();
         }

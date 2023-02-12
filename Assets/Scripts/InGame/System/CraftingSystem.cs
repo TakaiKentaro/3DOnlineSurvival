@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using UnityEngine;
 
 public class CraftingSystem : IItemHolder
@@ -9,34 +10,57 @@ public class CraftingSystem : IItemHolder
 
     public event EventHandler OnGridChanged;
 
+    private CraftingRecipeData[] _craftingRecipeDatas = Resources.LoadAll<CraftingRecipeData>("");
     private Dictionary<Item.ItemType, Item.ItemType[,]> _recipeDictionary;
-
     private Item[,] _itemArray;
     private Item _outputItem;
 
     public CraftingSystem()
     {
+        CraftingRecipeData craftingRecipeData = (CraftingRecipeData)_craftingRecipeDatas[0];
+        Debug.Log(craftingRecipeData);
+        
+        for (int i = 0; i < GRID_SIZE; i++)
+        {
+            for (int j = 0; j < GRID_SIZE; j++)
+            {
+                Debug.Log(craftingRecipeData._itemTypes[i,j]);
+            }
+        }
+
+
         _itemArray = new Item[GRID_SIZE, GRID_SIZE];
 
         _recipeDictionary = new Dictionary<Item.ItemType, Item.ItemType[,]>();
 
+        for (int i = 0; i < _craftingRecipeDatas.Length; i++)
+        {
+            //CraftingRecipeData craftingRecipeData = (CraftingRecipeData)_craftingRecipeDatas[i];
+
+            Item.ItemType[,] itemTypes = craftingRecipeData._itemTypes;
+            Item.ItemType recipe = craftingRecipeData._recipe;
+
+            Item.ItemType[,] craftRecipe = new Item.ItemType[GRID_SIZE, GRID_SIZE];
+
+            for (int x = 0; x < GRID_SIZE; x++)
+            {
+                for (int y = 0; y < GRID_SIZE; y++)
+                {
+                    craftRecipe[x, y] = itemTypes[x, y];
+                }
+            }
+
+            _recipeDictionary[recipe] = craftRecipe;
+        }
+
         // Stick
-        Item.ItemType[,] recipe = new Item.ItemType[GRID_SIZE, GRID_SIZE];
+        /*Item.ItemType[,] recipe = new Item.ItemType[GRID_SIZE, GRID_SIZE];
         recipe[0, 4] = Item.ItemType.None;  recipe[1, 4] = Item.ItemType.None;  recipe[2, 4] = Item.ItemType.None;  recipe[3, 4] = Item.ItemType.None;  recipe[4, 4] = Item.ItemType.None;
         recipe[0, 3] = Item.ItemType.None;  recipe[1, 3] = Item.ItemType.None;  recipe[2, 3] = Item.ItemType.None;  recipe[3, 3] = Item.ItemType.None;  recipe[4, 3] = Item.ItemType.None;
         recipe[0, 2] = Item.ItemType.None;  recipe[1, 2] = Item.ItemType.None;  recipe[2, 2] = Item.ItemType.Wood;  recipe[3, 2] = Item.ItemType.None;  recipe[4, 2] = Item.ItemType.None;
         recipe[0, 1] = Item.ItemType.None;  recipe[1, 1] = Item.ItemType.None;  recipe[2, 1] = Item.ItemType.Wood;  recipe[3, 1] = Item.ItemType.None;  recipe[4, 1] = Item.ItemType.None;
         recipe[0, 0] = Item.ItemType.None;  recipe[1, 0] = Item.ItemType.None;  recipe[2, 0] = Item.ItemType.Wood;  recipe[3, 0] = Item.ItemType.None;  recipe[4, 0] = Item.ItemType.None;
-        _recipeDictionary[Item.ItemType.Stick] = recipe;
-        
-        // SWORD_STONE
-        recipe = new Item.ItemType[GRID_SIZE, GRID_SIZE];
-        recipe[0, 4] = Item.ItemType.None;  recipe[1, 4] = Item.ItemType.None;  recipe[2, 4] = Item.ItemType.Stone;  recipe[3, 4] = Item.ItemType.None;  recipe[4, 4] = Item.ItemType.None;
-        recipe[0, 3] = Item.ItemType.None;  recipe[1, 3] = Item.ItemType.None;  recipe[2, 3] = Item.ItemType.Stone;  recipe[3, 3] = Item.ItemType.None;  recipe[4, 3] = Item.ItemType.None;
-        recipe[0, 2] = Item.ItemType.None;  recipe[1, 2] = Item.ItemType.None;  recipe[2, 2] = Item.ItemType.Stone;  recipe[3, 2] = Item.ItemType.None;  recipe[4, 2] = Item.ItemType.None;
-        recipe[0, 1] = Item.ItemType.None;  recipe[1, 1] = Item.ItemType.Wood;  recipe[2, 1] = Item.ItemType.Wood;  recipe[3, 1] = Item.ItemType.Wood;  recipe[4, 1] = Item.ItemType.None;
-        recipe[0, 0] = Item.ItemType.None;  recipe[1, 0] = Item.ItemType.None;  recipe[2, 0] = Item.ItemType.Stick;  recipe[3, 0] = Item.ItemType.None;  recipe[4, 0] = Item.ItemType.None;
-        _recipeDictionary[Item.ItemType.Sword_Stone] = recipe;
+        _recipeDictionary[Item.ItemType.Stick] = recipe;*/
     }
 
     public bool IsEmpty(int x, int y)
@@ -77,6 +101,7 @@ public class CraftingSystem : IItemHolder
             {
                 RemoveItem(x, y);
             }
+
             OnGridChanged?.Invoke(this, EventArgs.Empty);
         }
     }
