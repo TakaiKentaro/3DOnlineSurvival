@@ -5,15 +5,16 @@ using DG.Tweening.Plugins.Core.PathCore;
 using Photon.Pun;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 [CustomEditor(typeof(CraftingSystem))]
 public class MyWindow : EditorWindow
 {
-    
     Item.ItemType[,] itemTypes = new Item.ItemType[5, 5];
     Item.ItemType recepi = Item.ItemType.None;
     private string assetName = "";
+
     [MenuItem("Window/CraftRecipeGenerator")]
     static void Open()
     {
@@ -96,12 +97,17 @@ public class MyWindow : EditorWindow
 
         void CreatRecepi()
         {
-            CraftingRecipeData _assets = CreateInstance<CraftingRecipeData>();    
+            CraftingRecipeData _assets = CreateInstance<CraftingRecipeData>();
+            _assets.Init();
             _assets._itemTypes = itemTypes;
             _assets._recipe = recepi;
             AssetDatabase.CreateAsset(_assets,$"Assets/Resources/{assetName}.asset");
+            //EditorUtility.FocusProjectWindow();
+            //Selection.activeObject = _assets;
+            //AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-            Reset();
+
+            //Reset();
         }
 
         void Reset()
