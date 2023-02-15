@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -10,14 +12,14 @@ public class CraftingRecipeData : ScriptableObject
 {
     public Item.ItemType[,] _itemTypes;
     public Item.ItemType _recipe = Item.ItemType.None;
-    
+
     public void Init()
     {
         _itemTypes = new Item.ItemType[5, 5];
     }
 }
 
-/*[CustomEditor(typeof(CraftingRecipeData))]
+[CustomEditor(typeof(CraftingRecipeData))]
 public class CraftingRecipeDataEditor : Editor
 {
     public override void OnInspectorGUI()
@@ -32,4 +34,4 @@ public class CraftingRecipeDataEditor : Editor
             }
         }
     }
-}*/
+}

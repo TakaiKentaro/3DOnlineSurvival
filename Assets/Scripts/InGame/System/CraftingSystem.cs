@@ -17,25 +17,14 @@ public class CraftingSystem : IItemHolder
 
     public CraftingSystem()
     {
-        CraftingRecipeData craftingRecipeData = (CraftingRecipeData)_craftingRecipeDatas[0];
-        Debug.Log(craftingRecipeData);
-        
-        for (int i = 0; i < GRID_SIZE; i++)
-        {
-            for (int j = 0; j < GRID_SIZE; j++)
-            {
-                Debug.Log(craftingRecipeData._itemTypes[i,j]);
-            }
-        }
-
-
         _itemArray = new Item[GRID_SIZE, GRID_SIZE];
-
         _recipeDictionary = new Dictionary<Item.ItemType, Item.ItemType[,]>();
-
+        
         for (int i = 0; i < _craftingRecipeDatas.Length; i++)
         {
-            //CraftingRecipeData craftingRecipeData = (CraftingRecipeData)_craftingRecipeDatas[i];
+            CraftingRecipeData craftingRecipeData = _craftingRecipeDatas[i];
+
+            Debug.Log(craftingRecipeData);
 
             Item.ItemType[,] itemTypes = craftingRecipeData._itemTypes;
             Item.ItemType recipe = craftingRecipeData._recipe;
