@@ -93,11 +93,14 @@ public class MyWindow : EditorWindow
         {
             Debug.Log("レシピ作成");
             CreatRecepi();
+
+            itemTypes = null;
+            itemTypes = new Item.ItemType[5, 5];
         }
 
         void CreatRecepi()
         {
-            CraftingRecipeData _assets = CreateInstance<CraftingRecipeData>();
+            CraftingRecipeData _assets = ScriptableObject.CreateInstance<CraftingRecipeData>();
             _assets.Init();
             _assets._itemTypes = itemTypes;
             _assets._recipe = recepi;
@@ -105,6 +108,7 @@ public class MyWindow : EditorWindow
             //EditorUtility.FocusProjectWindow();
             //Selection.activeObject = _assets;
             //AssetDatabase.SaveAssets();
+            //EditorUtility.SetDirty(_assets);
             AssetDatabase.Refresh();
 
             //Reset();

@@ -17,7 +17,7 @@ public class CraftingRecipeData : ScriptableObject
     }
 }
 
-[CustomEditor(typeof(CraftingRecipeData))]
+/*[CustomEditor(typeof(CraftingRecipeData))]
 public class CraftingRecipeDataEditor : Editor
 {
     public override void OnInspectorGUI()
@@ -32,4 +32,4 @@ public class CraftingRecipeDataEditor : Editor
             }
         }
     }
-}
+}*/
