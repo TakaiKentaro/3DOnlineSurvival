@@ -9,8 +9,8 @@ using UnityEngine.Serialization;
 public class CraftingRecipeData : ScriptableObject
 {
     public Item.ItemType[,] _itemTypes;
-
     public Item.ItemType _recipe = Item.ItemType.None;
+    
     public void Init()
     {
         _itemTypes = new Item.ItemType[5, 5];
