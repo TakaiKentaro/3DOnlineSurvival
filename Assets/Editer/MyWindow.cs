@@ -105,12 +105,11 @@ public class MyWindow : EditorWindow
             _assets._itemTypes = itemTypes;
             _assets._recipe = recepi;
             AssetDatabase.CreateAsset(_assets,$"Assets/Resources/{assetName}.asset");
-            //EditorUtility.FocusProjectWindow();
-            //Selection.activeObject = _assets;
-            AssetDatabase.SaveAssets();
-            //EditorUtility.SetDirty(_assets);
-            AssetDatabase.Refresh();
-
+            EditorUtility.FocusProjectWindow();
+            Selection.activeObject = _assets;
+            //AssetDatabase.SaveAssets();
+            EditorUtility.SetDirty(_assets);
+            //AssetDatabase.Refresh();
             //Reset();
         }
 
