@@ -4,6 +4,7 @@ using UnityEngine;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
+
 public class PlayerController : MonoBehaviour
 {
     #region Singleton
