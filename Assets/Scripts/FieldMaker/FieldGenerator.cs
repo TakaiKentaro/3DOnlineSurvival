@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// ランダムにマップを生成するクラス
 /// </summary>
-public class MapGenerator : MonoBehaviour
+public class FieldGenerator : MonoBehaviour
 {
     [Header("シード値")]
     [SerializeField, Tooltip("シード値X")]
@@ -46,7 +46,7 @@ public class MapGenerator : MonoBehaviour
             {
                 GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 cube.transform.localPosition = new Vector3(x, 0, z);
-                cube.transform.localScale = new Vector3(1, 5, 1);
+                cube.transform.localScale = new Vector3(1, 10, 1);
                 cube.transform.SetParent(transform);
                 _fieldArray[x, z] = cube;
                 

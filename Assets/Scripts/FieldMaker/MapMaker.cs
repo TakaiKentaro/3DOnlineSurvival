@@ -9,8 +9,10 @@ public class MapMaker : MonoBehaviour
 
     [SerializeField] private GameObject _fieldGenerator;
 
+    private GameObject[,] _fieldArray;
     private void Start()
     {
+        _fieldArray = new GameObject[_fieldSize,_fieldSize];
         MapMake();
     }
 
@@ -23,23 +25,14 @@ public class MapMaker : MonoBehaviour
     {
         int x = 0;
         int z = 0;
-
-        Vector3 pos = new Vector3(x * 100,0,z * 100);
         
-        for (int i = 0; i < Math.Pow(_fieldSize,_fieldSize); i++)
+        for (int i = 0; i < _fieldSize; i++)
         {
-            if (x == z)
+            for (int j = 0; j < _fieldSize; j++)
             {
-                Instantiate(_fieldGenerator, pos,Quaternion.identity);
-                x++;
-            }
-            else if (x > z)
-            {
-                z += 2;
-            }
-            else if (z > x)
-            {
-                
+                var field = Instantiate(_fieldGenerator);
+                _fieldArray[i, j] = field;
+                _fieldArray[i,j].transform.position = new Vector3(i * 50, 0, j * 50);
             }
         }
     }
