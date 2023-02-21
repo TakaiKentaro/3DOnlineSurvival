@@ -53,3 +53,4 @@ MonoBehaviour:
   _mapSize: 1
   _isPerlinNoiseMap: 1
   _isSmoothness: 0
+  _fieldBox: {fileID: 1487753573057874370, guid: 73eddc886d74ed343ad24b49f1e6e47f, type: 3}

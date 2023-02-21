@@ -23,16 +23,14 @@ public class MapMaker : MonoBehaviour
 
     void MapMake()
     {
-        int x = 0;
-        int z = 0;
-        
-        for (int i = 0; i < _fieldSize; i++)
+        for (int x = 0; x < _fieldSize; x++)
         {
-            for (int j = 0; j < _fieldSize; j++)
+            for (int z = 0; z < _fieldSize; z++)
             {
                 var field = Instantiate(_fieldGenerator);
-                _fieldArray[i, j] = field;
-                _fieldArray[i,j].transform.position = new Vector3(i * 50, 0, j * 50);
+                field.transform.parent = transform;
+                _fieldArray[x, z] = field;
+                _fieldArray[x,z].transform.position = new Vector3(x * 50, 0, z * 50);
             }
         }
     }
