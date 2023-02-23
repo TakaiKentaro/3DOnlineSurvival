@@ -107,7 +107,7 @@ public class MyWindow : EditorWindow
             AssetDatabase.CreateAsset(_assets,$"Assets/Resources/{assetName}.asset");
             EditorUtility.FocusProjectWindow();
             Selection.activeObject = _assets;
-            //AssetDatabase.SaveAssets();
+            AssetDatabase.SaveAssets();
             EditorUtility.SetDirty(_assets);
             //AssetDatabase.Refresh();
             //Reset();
