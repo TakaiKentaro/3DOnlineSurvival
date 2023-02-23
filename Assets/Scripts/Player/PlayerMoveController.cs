@@ -7,8 +7,6 @@ using Photon.Realtime;
 [RequireComponent(typeof(Rigidbody), typeof(PhotonView))]
 public class PlayerMoveController : MonoBehaviour
 {
-    /// <summary>操作系のタイプ</summary>
-    [SerializeField] ControlType _controlType = ControlType.MoveWithSmoothTurn;
     /// <summary>動く速さ</summary>
     [SerializeField] float _movingSpeed = 5f;
     /// <summary>ターンの速さ</summary>
@@ -44,53 +42,28 @@ public class PlayerMoveController : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
 
-        // ControlType と入力に応じてキャラクターを動かす
-        if (_controlType == ControlType.Turn)
+        Vector3 dir = Vector3.forward * v + Vector3.right * h;
+
+        if (dir == Vector3.zero)
         {
-            // 左右で回転させる
-            if (h != 0)
-            {
-                this.transform.Rotate(this.transform.up, h * _turnSpeed);
-            }
-
-            // 上下で前後移動する。ジャンプした時の y 軸方向の速度は保持する。
-            Vector3 velo = this.transform.forward * _movingSpeed * v;
-            velo.y = _rb.velocity.y;
-            _rb.velocity = velo;
+            // 方向の入力がニュートラルの時は、y 軸方向の速度を保持するだけ
+            _rb.velocity = new Vector3(0f, _rb.velocity.y, 0f);
         }
-        else if (_controlType == ControlType.Move || _controlType == ControlType.MoveWithSmoothTurn)
+        else
         {
-            // 入力方向のベクトルを組み立てる
-            Vector3 dir = Vector3.forward * v + Vector3.right * h;
+            // カメラを基準に入力が上下=奥/手前, 左右=左右にキャラクターを向ける
+            dir = Camera.main.transform.TransformDirection(dir);    // メインカメラを基準に入力方向のベクトルを変換する
+            dir.y = 0;  // y 軸方向はゼロにして水平方向のベクトルにする
 
-            if (dir == Vector3.zero)
-            {
-                // 方向の入力がニュートラルの時は、y 軸方向の速度を保持するだけ
-                _rb.velocity = new Vector3(0f, _rb.velocity.y, 0f);
-            }
-            else
-            {
-                // カメラを基準に入力が上下=奥/手前, 左右=左右にキャラクターを向ける
-                dir = Camera.main.transform.TransformDirection(dir);    // メインカメラを基準に入力方向のベクトルを変換する
-                dir.y = 0;  // y 軸方向はゼロにして水平方向のベクトルにする
+            // 入力方向に滑らかに回転させる
+            Quaternion targetRotation = Quaternion.LookRotation(dir);
+            this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, Time.deltaTime * _turnSpeed);
 
-                if (_controlType == ControlType.Move)
-                {
-                    this.transform.forward = dir;   // 入力した方向にオブジェクトを向ける
-                }
-                else if (_controlType == ControlType.MoveWithSmoothTurn)
-                {
-                    // 入力方向に滑らかに回転させる
-                    Quaternion targetRotation = Quaternion.LookRotation(dir);
-                    this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, Time.deltaTime * _turnSpeed);
-                }
-                
-                Vector3 velo = dir.normalized * _movingSpeed; // 入力した方向に移動する
-                velo.y = _rb.velocity.y;   // ジャンプした時の y 軸方向の速度を保持する
-                _rb.velocity = velo;   // 計算した速度ベクトルをセットする
-            }
+            Vector3 velo = dir.normalized * _movingSpeed; // 入力した方向に移動する
+            velo.y = _rb.velocity.y;   // ジャンプした時の y 軸方向の速度を保持する
+            _rb.velocity = velo;   // 計算した速度ベクトルをセットする
+
         }
-
         // Animator Controller のパラメータをセットする
         if (_anim)
         {
@@ -113,6 +86,7 @@ public class PlayerMoveController : MonoBehaviour
         // ジャンプの入力を取得し、接地している時に押されていたらジャンプする
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
+            Debug.Log("Jump");
             _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
 
             // Animator Controller のパラメータをセットする
@@ -137,14 +111,4 @@ public class PlayerMoveController : MonoBehaviour
         bool isGrounded = Physics.Linecast(start, end); // 引いたラインに何かがぶつかっていたら true とする
         return isGrounded;
     }
-}
-
-public enum ControlType
-{
-    /// <summary>初代バイオハザードのようなラジコン操作</summary>
-    Turn,
-    /// <summary>カメラを基準とした方向に移動する</summary>
-    Move,
-    /// <summary>カメラを基準とした方向に移動する。方向転換の際には滑らかに回転する</summary>
-    MoveWithSmoothTurn,
 }
