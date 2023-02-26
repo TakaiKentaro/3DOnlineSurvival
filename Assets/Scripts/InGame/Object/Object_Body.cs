@@ -5,29 +5,32 @@ using UnityEngine;
 
 public class Object_Body : MonoBehaviour
 {
-    
-    private Color _color;
+    private MeshRenderer _color;
+    private ObjectType _type;
 
     private void Start()
     {
+        _color = GetComponent<MeshRenderer>();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void SetObject(ObjectType type)
     {
-    }
+        _type = type;
 
-    public void HPCalculation(int damage)
-    {
-    }
+        switch (_type)
+        {
+            case ObjectType.Wood:
+            {
+            }
+                break;
 
-    private Color SetColor()
-    {
-        
-        return Color.blue;
-    }
+            case ObjectType.Stone:
+            {
+            }
+                break;
 
-    private int SetHp()
-    {
-        return 0;
+            case ObjectType.None:
+                break;
+        }
     }
 }
