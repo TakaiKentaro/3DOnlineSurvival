@@ -13,25 +13,28 @@ public class Object_UI : MonoBehaviour
     [Header("Slider")] 
     [SerializeField] private Slider _hpSlider;
     
-    
     [Header("Camera")]
     [SerializeField] float _hideDistance = 0;
-    [SerializeField] Camera _camera;
 
+    private Camera _camera;
     private int _hp;
     private ObjectType _type;
 
-    public void SetObject(ObjectType type, int hp)
+    public Camera Camera => _camera;
+
+    public void SetObject(ObjectType type, int hp,Camera cam)
     {
+        _camera = cam;
         _type = type;
         _text.text = _type.ToString();
-        _hp = hp;
         _hpSlider.maxValue = hp;
+        _hpSlider.value = hp;
+        _hp = hp;
     }
 
-    void OnDamage()
+    public void OnDamage(int dmg)
     {
-        
+        _hpSlider.value = dmg;
     }
 
     private void Update()
