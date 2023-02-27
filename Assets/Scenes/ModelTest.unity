@@ -450,6 +450,14 @@ PrefabInstance:
       propertyPath: _camera
       value: 
       objectReference: {fileID: 874912729}
+    - target: {fileID: 4725445674321187172, guid: 3fc75533d0229554ca3e08672a0c218b, type: 3}
+      propertyPath: _hp
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725445674321187172, guid: 3fc75533d0229554ca3e08672a0c218b, type: 3}
+      propertyPath: _camera
+      value: 
+      objectReference: {fileID: 874912729}
     - target: {fileID: 4725445674321187173, guid: 3fc75533d0229554ca3e08672a0c218b, type: 3}
       propertyPath: m_RootOrder
       value: 2

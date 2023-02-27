@@ -615,7 +615,6 @@ MonoBehaviour:
   _text: {fileID: 4725445672638254946}
   _hpSlider: {fileID: 4725445674078291865}
   _hideDistance: 5
-  _camera: {fileID: 0}
 --- !u!1 &4725445674078291867
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,7 +754,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectType: 2
-  _hp: 0
+  _hp: 10
+  _camera: {fileID: 0}
   _body: {fileID: 2239483565243001559}
   _ui: {fileID: 4725445673847375312}
 --- !u!65 &4725445674321187178
