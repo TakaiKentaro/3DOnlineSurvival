@@ -4,9 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Attack
-  - Guard
-  - Enemy
+  - Hand
+  - Sword
+  - Axe
+  - Pickaxe
+  - Object
   layers:
   - Default
   - TransparentFX
