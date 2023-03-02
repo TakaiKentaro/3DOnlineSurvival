@@ -28,9 +28,9 @@ public class Object_Root : MonoBehaviour
         _ui.SetObject(_objectType,_hp, _camera);
     }
 
-    public void OnCollisionDamage(Collision collision)
+    public void OnCollisionDamage(string tag,int dmg)
     {
-        DamageCalculation(collision.gameObject.tag, 1);
+        DamageCalculation(tag, dmg);
     }
 
     private void DamageCalculation(string tag,int dmg)

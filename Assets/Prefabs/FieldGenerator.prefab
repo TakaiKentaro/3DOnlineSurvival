@@ -54,3 +54,5 @@ MonoBehaviour:
   _isPerlinNoiseMap: 1
   _isSmoothness: 0
   _fieldBox: {fileID: 1487753573057874370, guid: 73eddc886d74ed343ad24b49f1e6e47f, type: 3}
+  _fieldTree: {fileID: 6987304483334748297, guid: b6bf1eba1f571f745a011bcdba5f5e21, type: 3}
+  _fieldStone: {fileID: 4725445674321187174, guid: 3fc75533d0229554ca3e08672a0c218b, type: 3}

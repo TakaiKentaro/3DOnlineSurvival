@@ -52,13 +52,11 @@ public class UI_CraftingSystem : MonoBehaviour
 
     private void UpdateVisual()
     {
-        // 古いアイテムを削除
         foreach (Transform child in _itemContainer)
         {
             Destroy(child.gameObject);
         }
 
-        // グリッドの循環とアイテムの生成
         for (int x = 0; x < CraftingSystem.GRID_SIZE; x++)
         {
             for (int y = 0; y < CraftingSystem.GRID_SIZE; y++)

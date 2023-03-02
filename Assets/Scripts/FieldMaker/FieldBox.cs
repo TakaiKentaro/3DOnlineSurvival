@@ -10,6 +10,8 @@ public class FieldBox : MonoBehaviour
     private Camera _camera;
     private MeshRenderer _renderer;
 
+    public bool _isPut = false;
+
     private void Start()
     {
         _camera = GameObject.Find("Main Camera").GetComponent<Camera>();

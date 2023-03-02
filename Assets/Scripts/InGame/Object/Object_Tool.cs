@@ -7,18 +7,45 @@ public class Object_Tool : MonoBehaviour
     [SerializeField] int _dmg;
 
     private string _tagName;
+    private BoxCollider _boxCollider;
 
     private void Start()
     {
         _tagName = gameObject.tag;
+        _boxCollider = GetComponent<BoxCollider>();
 
-        //gameObject.SetActive(false);
+        _boxCollider.enabled = false;
+        gameObject.SetActive(false);
     }
 
-    public void Use()
+    public void OnUse()
     {
-        gameObject.SetActive(true);
+        if(gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
+        
     }
+
+
+    public void OnCollider()
+    {
+        if(!_boxCollider.enabled)
+        {
+            _boxCollider.enabled = true;
+        }
+        else
+        {
+            _boxCollider.enabled = false;
+        }
+        
+    }
+    
+
 
     private void OnTriggerEnter(Collider other)
     {

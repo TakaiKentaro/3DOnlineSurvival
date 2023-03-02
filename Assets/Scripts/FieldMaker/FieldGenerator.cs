@@ -8,12 +8,14 @@ using UnityEngine;
 /// </summary>
 public class FieldGenerator : MonoBehaviour
 {
-    [Header("シード値")] [SerializeField, Tooltip("シード値X")]
+    [Header("シード値")]
+    [SerializeField, Tooltip("シード値X")]
     private float _seedX;
 
     [SerializeField, Tooltip("シード値Z")] private float _seedZ;
 
-    [Header("マップサイズ")] [SerializeField, Tooltip("幅")]
+    [Header("マップサイズ")]
+    [SerializeField, Tooltip("幅")]
     private float _width = 50f;
 
     [SerializeField, Tooltip("深さ")] private float _depth = 50f;
@@ -28,12 +30,14 @@ public class FieldGenerator : MonoBehaviour
     private bool _isSmoothness = false;
 
     [SerializeField, Tooltip("Field用Box")] private GameObject _fieldBox;
+    [SerializeField, Tooltip("Field用Tree")] private GameObject _fieldTree;
+    [SerializeField, Tooltip("Field用Stone")] private GameObject _fieldStone;
 
-    private GameObject[,] _fieldArray;
+    private FieldBox[,] _fieldArray;
 
     private void Awake()
     {
-        _fieldArray = new GameObject[(int)_width, (int)_depth];
+        _fieldArray = new FieldBox[(int)_width, (int)_depth];
 
         transform.localScale = new Vector3(_mapSize, _mapSize, _mapSize);
 
@@ -44,17 +48,17 @@ public class FieldGenerator : MonoBehaviour
         {
             for (int z = 0; z < _depth; z++)
             {
-                //GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 GameObject cube = Instantiate(_fieldBox);
                 cube.transform.localPosition = new Vector3(x, 0, z);
-               // cube.transform.localScale = new Vector3(1, 10, 1);
                 cube.transform.SetParent(transform);
-                _fieldArray[x, z] = cube;
+                _fieldArray[x, z] = cube.GetComponent<FieldBox>();
 
                 //高さ設定
                 SetYPosition(cube);
             }
         }
+
+        PutObject();
     }
 
     private void SetYPosition(GameObject cube)
@@ -105,5 +109,54 @@ public class FieldGenerator : MonoBehaviour
         }
 
         cube.GetComponent<MeshRenderer>().material.color = color;
+    }
+
+    void PutObject()
+    {
+        for (int x = 0; x < _width; x++)
+        {
+            for (int z = 0; z < _depth; z++)
+            {
+                FieldBox go = _fieldArray[x, z];
+
+                if (PerimeterCheck(x, z))
+                {
+                    if (go.transform.position.y > _maxHeight * 0.3f)
+                    {
+                        Instantiate(_fieldTree);
+                        go._isPut = true;
+                    }
+                    else if(go.transform.position.y > _maxHeight * 0.1f)
+                    {
+                        Instantiate(_fieldStone);
+                        go._isPut = true;
+                    }
+                }
+            }
+        }
+    }
+
+    bool PerimeterCheck(int x, int z)
+    {
+        if (!_fieldArray[x + 1, z]._isPut && !_fieldArray[x - 1, z]._isPut
+                    && !_fieldArray[x, z + 1]._isPut && !_fieldArray[x, z - 1]._isPut
+                    && !_fieldArray[x + 1, z + 1]._isPut && !_fieldArray[x - 1, z - 1]._isPut
+                    && !_fieldArray[x + 1, z - 1]._isPut && !_fieldArray[x - 1, z + 1]._isPut)
+        {
+            _fieldArray[x + 1, z]._isPut = true;
+            _fieldArray[x - 1, z]._isPut = true;
+            _fieldArray[x, z + 1]._isPut = true;
+            _fieldArray[x, z - 1]._isPut = true;
+            _fieldArray[x + 1, z + 1]._isPut = true;
+            _fieldArray[x - 1, z - 1]._isPut = true;
+            _fieldArray[x + 1, z - 1]._isPut = true;
+            _fieldArray[x - 1, z + 1]._isPut = true;
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
