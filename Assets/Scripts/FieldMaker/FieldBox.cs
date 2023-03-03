@@ -8,8 +8,6 @@ using ColorUtility = UnityEngine.ColorUtility;
 
 public class FieldBox : MonoBehaviour
 {
-    [SerializeField] private MeshRenderer[] _plane = new MeshRenderer[5];
-
     private Camera _camera;
     private MeshRenderer _renderer;
 
@@ -21,10 +19,10 @@ public class FieldBox : MonoBehaviour
 
         ColorUtility.TryParseHtmlString(c, out color);
 
-        foreach (var box in _plane)
-        {
-            box.material.color = color;
-        }
+        //foreach (var box in _plane)
+        //{
+        //    box.material.color = color;
+        //}
     }
 
     void Update()

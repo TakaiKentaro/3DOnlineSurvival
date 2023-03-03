@@ -8,12 +8,14 @@ using UnityEngine;
 /// </summary>
 public class FieldGenerator : MonoBehaviour
 {
-    [Header("シード値")] [SerializeField, Tooltip("シード値X")]
+    [Header("シード値")]
+    [SerializeField, Tooltip("シード値X")]
     private float _seedX;
 
     [SerializeField, Tooltip("シード値Z")] private float _seedZ;
 
-    [Header("マップサイズ")] [SerializeField, Tooltip("幅")]
+    [Header("マップサイズ")]
+    [SerializeField, Tooltip("幅")]
     private float _width = 50f;
 
     [SerializeField, Tooltip("深さ")] private float _depth = 50f;
@@ -27,7 +29,8 @@ public class FieldGenerator : MonoBehaviour
     [SerializeField, Tooltip("Y軸の滑らかにするか")]
     private bool _isSmoothness = false;
 
-    [SerializeField, Tooltip("Field用Box")] private GameObject _fieldBox;
+    [SerializeField, Tooltip("Field用Box")] 
+    private GameObject _fieldBox;
 
     [SerializeField, Tooltip("Field用Tree")]
     private GameObject _fieldTree;
@@ -90,7 +93,7 @@ public class FieldGenerator : MonoBehaviour
 
         cube.transform.localPosition = new Vector3(cube.transform.localPosition.x, y, cube.transform.localPosition.z);
 
-        ChangeCubeColor(cube, y);
+        // ChangeCubeColor(cube, y);
     }
 
     void ChangeCubeColor(GameObject cube, float y) //高さによって色を段階的に変更
@@ -125,12 +128,12 @@ public class FieldGenerator : MonoBehaviour
                 {
                     if (go.transform.position.y > _maxHeight * 0.3f)
                     {
-                        Instantiate(_fieldTree,new Vector3(0,5f,0), Quaternion.identity);
+                        Instantiate(_fieldTree, new Vector3(0, 5f, 0), Quaternion.identity);
                         go._isPut = true;
                     }
                     else if (go.transform.position.y > _maxHeight * 0.1f)
                     {
-                        Instantiate(_fieldStone,new Vector3(0,5f,0), Quaternion.identity);
+                        Instantiate(_fieldStone, new Vector3(0, 5f, 0), Quaternion.identity);
                         go._isPut = true;
                     }
                 }
