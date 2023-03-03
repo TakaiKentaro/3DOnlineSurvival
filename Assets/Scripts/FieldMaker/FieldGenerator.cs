@@ -8,14 +8,12 @@ using UnityEngine;
 /// </summary>
 public class FieldGenerator : MonoBehaviour
 {
-    [Header("シード値")]
-    [SerializeField, Tooltip("シード値X")]
+    [Header("シード値")] [SerializeField, Tooltip("シード値X")]
     private float _seedX;
 
     [SerializeField, Tooltip("シード値Z")] private float _seedZ;
 
-    [Header("マップサイズ")]
-    [SerializeField, Tooltip("幅")]
+    [Header("マップサイズ")] [SerializeField, Tooltip("幅")]
     private float _width = 50f;
 
     [SerializeField, Tooltip("深さ")] private float _depth = 50f;
@@ -30,8 +28,12 @@ public class FieldGenerator : MonoBehaviour
     private bool _isSmoothness = false;
 
     [SerializeField, Tooltip("Field用Box")] private GameObject _fieldBox;
-    [SerializeField, Tooltip("Field用Tree")] private GameObject _fieldTree;
-    [SerializeField, Tooltip("Field用Stone")] private GameObject _fieldStone;
+
+    [SerializeField, Tooltip("Field用Tree")]
+    private GameObject _fieldTree;
+
+    [SerializeField, Tooltip("Field用Stone")]
+    private GameObject _fieldStone;
 
     private FieldBox[,] _fieldArray;
 
@@ -58,7 +60,7 @@ public class FieldGenerator : MonoBehaviour
             }
         }
 
-        PutObject();
+        //PutObject();
     }
 
     private void SetYPosition(GameObject cube)
@@ -93,22 +95,22 @@ public class FieldGenerator : MonoBehaviour
 
     void ChangeCubeColor(GameObject cube, float y) //高さによって色を段階的に変更
     {
-        Color color = Color.black; //岩盤
-
         if (y > _maxHeight * 0.3f) //草
         {
-            ColorUtility.TryParseHtmlString("#00ff00", out color);
+            cube.GetComponent<FieldBox>().ChangeColor("#00ff00");
         }
         else if (y > _maxHeight * 0.2f) // 土
         {
-            ColorUtility.TryParseHtmlString("#8b4513", out color);
+            cube.GetComponent<FieldBox>().ChangeColor("#8b4513");
         }
         else if (y > _maxHeight * 0.1f) // 石
         {
-            ColorUtility.TryParseHtmlString("#808080", out color);
+            cube.GetComponent<FieldBox>().ChangeColor("#808080");
         }
-
-        cube.GetComponent<MeshRenderer>().material.color = color;
+        else
+        {
+            cube.GetComponent<FieldBox>().ChangeColor("#000000");
+        }
     }
 
     void PutObject()
@@ -123,12 +125,12 @@ public class FieldGenerator : MonoBehaviour
                 {
                     if (go.transform.position.y > _maxHeight * 0.3f)
                     {
-                        Instantiate(_fieldTree);
+                        Instantiate(_fieldTree,new Vector3(0,5f,0), Quaternion.identity);
                         go._isPut = true;
                     }
-                    else if(go.transform.position.y > _maxHeight * 0.1f)
+                    else if (go.transform.position.y > _maxHeight * 0.1f)
                     {
-                        Instantiate(_fieldStone);
+                        Instantiate(_fieldStone,new Vector3(0,5f,0), Quaternion.identity);
                         go._isPut = true;
                     }
                 }
@@ -138,25 +140,28 @@ public class FieldGenerator : MonoBehaviour
 
     bool PerimeterCheck(int x, int z)
     {
-        if (!_fieldArray[x + 1, z]._isPut && !_fieldArray[x - 1, z]._isPut
-                    && !_fieldArray[x, z + 1]._isPut && !_fieldArray[x, z - 1]._isPut
-                    && !_fieldArray[x + 1, z + 1]._isPut && !_fieldArray[x - 1, z - 1]._isPut
-                    && !_fieldArray[x + 1, z - 1]._isPut && !_fieldArray[x - 1, z + 1]._isPut)
+        if (x + 1 < _width && x - 1 >= 0 && z + 1 < _depth && z - 1 >= 0)
         {
-            _fieldArray[x + 1, z]._isPut = true;
-            _fieldArray[x - 1, z]._isPut = true;
-            _fieldArray[x, z + 1]._isPut = true;
-            _fieldArray[x, z - 1]._isPut = true;
-            _fieldArray[x + 1, z + 1]._isPut = true;
-            _fieldArray[x - 1, z - 1]._isPut = true;
-            _fieldArray[x + 1, z - 1]._isPut = true;
-            _fieldArray[x - 1, z + 1]._isPut = true;
+            if (!_fieldArray[x + 1, z]._isPut && !_fieldArray[x - 1, z]._isPut
+                                              && !_fieldArray[x, z + 1]._isPut && !_fieldArray[x, z - 1]._isPut
+                                              && !_fieldArray[x + 1, z + 1]._isPut && !_fieldArray[x - 1, z - 1]._isPut
+                                              && !_fieldArray[x + 1, z - 1]._isPut && !_fieldArray[x - 1, z + 1]._isPut)
+            {
+                _fieldArray[x + 1, z]._isPut = true;
+                _fieldArray[x - 1, z]._isPut = true;
+                _fieldArray[x, z + 1]._isPut = true;
+                _fieldArray[x, z - 1]._isPut = true;
+                _fieldArray[x + 1, z + 1]._isPut = true;
+                _fieldArray[x - 1, z - 1]._isPut = true;
+                _fieldArray[x + 1, z - 1]._isPut = true;
+                _fieldArray[x - 1, z + 1]._isPut = true;
 
-            return true;
-        }
-        else
-        {
+                return true;
+            }
+
             return false;
         }
+
+        return false;
     }
 }

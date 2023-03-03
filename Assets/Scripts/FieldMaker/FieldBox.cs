@@ -4,25 +4,33 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ColorUtility = UnityEngine.ColorUtility;
 
 public class FieldBox : MonoBehaviour
 {
+    [SerializeField] private MeshRenderer[] _plane = new MeshRenderer[5];
+
     private Camera _camera;
     private MeshRenderer _renderer;
 
     public bool _isPut = false;
 
-    private void Start()
+    public void ChangeColor(String c)
     {
-        _camera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        _renderer = this.gameObject.GetComponent<MeshRenderer>();
-        _renderer.enabled = false;
+        Color color = Color.black; //岩盤
+
+        ColorUtility.TryParseHtmlString(c, out color);
+
+        foreach (var box in _plane)
+        {
+            box.material.color = color;
+        }
     }
-    
+
     void Update()
     {
         //　カメラのビューポートの限界位置をオフセット位置を含めて計算
-        var leftScreenPos = Camera.main.WorldToViewportPoint(transform.position + new Vector3(0.8f, 0f, 0f));
+        /*var leftScreenPos = Camera.main.WorldToViewportPoint(transform.position + new Vector3(0.8f, 0f, 0f));
         var rightScreenPos = Camera.main.WorldToViewportPoint(transform.position - new Vector3(0.8f, 0f, 0f));
         var topScreenPos = Camera.main.WorldToViewportPoint(transform.position - new Vector3(0f, 0.8f, 0f));
         var bottomScreenPos = Camera.main.WorldToViewportPoint(transform.position + new Vector3(0f, 0.8f, 0f));
@@ -34,6 +42,6 @@ public class FieldBox : MonoBehaviour
         else
         {
             _renderer.enabled = false;
-        }
+        }*/
     }
 }
