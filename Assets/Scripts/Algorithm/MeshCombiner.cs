@@ -5,7 +5,18 @@ using UnityEngine;
 public class MeshCombiner : MonoBehaviour
 {
     public Transform _fieldGenerator;
-    public Material _combineMat;
+
+    public Material _combinedMat;
+
+    void Start()
+    {
+
+    }
+
+    void Update()
+    {
+
+    }
 
     public void OnCombine()
     {
@@ -19,13 +30,12 @@ public class MeshCombiner : MonoBehaviour
 
         MeshFilter[] meshFilters = _fieldGenerator.GetComponentsInChildren<MeshFilter>();
         List<MeshFilter> meshFilterList = new List<MeshFilter>();
-
         for (int i = 1; i < meshFilters.Length; i++)
         {
             meshFilterList.Add(meshFilters[i]);
         }
 
-        CombineInstance combine = new CombineInstance[meshFilterList.Count];
+        CombineInstance[] combine = new CombineInstance[meshFilterList.Count];
 
         for (int i = 0; i < meshFilterList.Count; i++)
         {
@@ -37,11 +47,11 @@ public class MeshCombiner : MonoBehaviour
         parentMeshFilter.mesh = new Mesh();
         parentMeshFilter.mesh.CombineMeshes(combine);
 
-        parentMeshRenderer.material = _combineMat;
+        parentMeshRenderer.material = _combinedMat;
 
         MeshCollider meshCol = CheckParentComponent<MeshCollider>(_fieldGenerator.gameObject);
         meshCol.sharedMesh = parentMeshFilter.mesh;
-        
+
         _fieldGenerator.gameObject.SetActive(true);
     }
 
@@ -52,7 +62,6 @@ public class MeshCombiner : MonoBehaviour
         {
             targetComp = go.AddComponent<T>();
         }
-
         return targetComp;
     }
 }
