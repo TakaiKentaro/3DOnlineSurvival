@@ -24,6 +24,8 @@ public class Object_Root : MonoBehaviour
 
     private void Start()
     {
+        _camera = FindObjectOfType<Camera>();
+        
         _body.SetObject(_objectType);
         _ui.SetObject(_objectType,_hp, _camera);
     }
