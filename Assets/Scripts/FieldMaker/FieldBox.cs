@@ -12,9 +12,4 @@ public class FieldBox : MonoBehaviour
     private MeshRenderer _renderer;
 
     public bool _isPut = false;
-
-    private void Start()
-    {
-        
-    }
 }

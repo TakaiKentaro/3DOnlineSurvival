@@ -7,7 +7,7 @@ using UnityEngine;
 /// </Summary>
 public class MeshMaterialCombiner : MonoBehaviour
 {
-    [SerializeField] Transform[] _fieldGenerator;
+    public Transform[] _fieldGeneratorArray;
 
     public void OnCombineMaterial()
     {
@@ -16,7 +16,7 @@ public class MeshMaterialCombiner : MonoBehaviour
 
     void CombineMeshWithMaterial()
     {
-        foreach(var f in _fieldGenerator)
+        foreach(var f in _fieldGeneratorArray)
         {
             MeshFilter[] meshFilters = f.GetComponentsInChildren<MeshFilter>();
             MeshRenderer[] meshRenderers = f.GetComponentsInChildren<MeshRenderer>();
@@ -73,6 +73,11 @@ public class MeshMaterialCombiner : MonoBehaviour
 
                 f.gameObject.SetActive(true);
             }
+        }
+
+        foreach(var i in _fieldGeneratorArray)
+        {
+            i.transform.position = new Vector3(0,0,0);
         }
     }
 

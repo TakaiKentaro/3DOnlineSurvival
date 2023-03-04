@@ -44,6 +44,7 @@ public class FieldGenerator : MonoBehaviour
 
     private void Awake()
     {
+        _maxHeight = Random.Range(5,20);
         _fieldArray = new FieldBox[(int)_width, (int)_depth];
 
         transform.localScale = new Vector3(_mapSize, _mapSize, _mapSize);
@@ -100,15 +101,15 @@ public class FieldGenerator : MonoBehaviour
 
     void ChangeCubeColor(GameObject cube, float y) //高さによって色を段階的に変更
     {
-        if (y > _maxHeight * 0.3f) //草
+        if (y > _maxHeight * 0.2f) //草
         {
             cube.GetComponent<MeshRenderer>().material = _materialArray[0];
         }
-        else if (y > _maxHeight * 0.2f) // 土
+        else if (y > _maxHeight * 0f) // 土
         {
             cube.GetComponent<MeshRenderer>().material = _materialArray[1];
         }
-        else if (y > _maxHeight * 0.1f) // 石
+        else if (y > _maxHeight * -0.2f) // 石
         {
             cube.GetComponent<MeshRenderer>().material = _materialArray[2];
         }

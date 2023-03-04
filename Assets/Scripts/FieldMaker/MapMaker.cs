@@ -7,25 +7,44 @@ public class MapMaker : MonoBehaviour
 {
     [SerializeField] private int _fieldSize = 0;
     [SerializeField] private GameObject _fieldGenerator;
+    [SerializeField] MeshMaterialCombiner _meshMaterialCombiner;
 
-    private GameObject[,] _fieldArray;
+    private bool[,] _isArray;
     private void Start()
     {
-        _fieldArray = new GameObject[_fieldSize,_fieldSize];
-        MapMake();
+        _isArray = new bool[_fieldSize, _fieldSize];
+
+        int size = _fieldSize * _fieldSize;
+
+        _meshMaterialCombiner._fieldGeneratorArray = new Transform[size];
+
+        for (int i = 0; i < size; i++)
+        {
+            GameObject go = Instantiate(_fieldGenerator);
+            go.transform.SetParent(gameObject.transform);
+            go.transform.position = FieldPosSet(go);
+            _meshMaterialCombiner._fieldGeneratorArray[i] = go.transform;
+        }
+
+        _meshMaterialCombiner.OnCombineMaterial();
     }
 
-    void MapMake()
+    Vector3 FieldPosSet(GameObject go)
     {
-        for (int x = 0; x < _fieldSize; x++)
+        Vector3 pos = go.transform.position;
+
+        for(int x = 0; x < _fieldSize; x++)
         {
-            for (int z = 0; z < _fieldSize; z++)
+            for(int z = 0; z < _fieldSize; z++)
             {
-                var field = Instantiate(_fieldGenerator);
-                field.transform.parent = transform;
-                _fieldArray[x, z] = field;
-                _fieldArray[x,z].transform.position = new Vector3(x * 50, 0, z * 50);
+                if (!_isArray[x,z])
+                {
+                    pos = new Vector3(x * 50, 0, z * 50);          
+                    _isArray[x, z] = true;
+                    return pos;
+                }
             }
         }
+        return pos;
     }
 }
