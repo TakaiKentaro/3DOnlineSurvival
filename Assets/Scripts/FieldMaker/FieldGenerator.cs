@@ -29,7 +29,7 @@ public class FieldGenerator : MonoBehaviour
     [SerializeField, Tooltip("Y軸の滑らかにするか")]
     private bool _isSmoothness = false;
 
-    [SerializeField, Tooltip("Field用Box")] 
+    [SerializeField, Tooltip("Field用Box")]
     private GameObject _fieldBox;
 
     [SerializeField, Tooltip("Field用Tree")]
@@ -44,7 +44,7 @@ public class FieldGenerator : MonoBehaviour
 
     private void Awake()
     {
-        _maxHeight = Random.Range(5,20);
+        _maxHeight = Random.Range(5, 20);
         _fieldArray = new FieldBox[(int)_width, (int)_depth];
 
         transform.localScale = new Vector3(_mapSize, _mapSize, _mapSize);
@@ -66,7 +66,7 @@ public class FieldGenerator : MonoBehaviour
             }
         }
 
-        PutObject();
+        //PutObject();
     }
 
     private void SetYPosition(GameObject cube)
@@ -119,24 +119,26 @@ public class FieldGenerator : MonoBehaviour
         }
     }
 
-    void PutObject()
+    public void PutObject()
     {
-        for (int x = 0; x < _width; x++)
+        for (int x = 0; x < _width; x+=10)
         {
-            for (int z = 0; z < _depth; z++)
+            for (int z = 0; z < _depth; z+=10)
             {
                 FieldBox go = _fieldArray[x, z];
 
                 if (PerimeterCheck(x, z))
                 {
-                    if (go.transform.position.y > _maxHeight * 0.3f)
+                    var y = go.transform.position.y;
+
+                    if (y > _maxHeight * 0.3f && y < _maxHeight * 0.5f)
                     {
-                        Instantiate(_fieldTree, go.transform.position, Quaternion.identity);
+                        Instantiate(_fieldTree, go._objectCreationPosition.position, Quaternion.identity);
                         go._isPut = true;
                     }
-                    else if (go.transform.position.y > _maxHeight * 0.1f)
+                    else if (y > _maxHeight * 0f && y < _maxHeight * 0.2f)
                     {
-                        Instantiate(_fieldStone, go.transform.position, Quaternion.identity);
+                        Instantiate(_fieldStone, go._objectCreationPosition.position, Quaternion.identity);
                         go._isPut = true;
                     }
                 }
@@ -148,10 +150,10 @@ public class FieldGenerator : MonoBehaviour
     {
         if (x + 1 < _width && x - 1 >= 0 && z + 1 < _depth && z - 1 >= 0)
         {
-            if (!_fieldArray[x + 1, z]._isPut && !_fieldArray[x - 1, z]._isPut
-                                              && !_fieldArray[x, z + 1]._isPut && !_fieldArray[x, z - 1]._isPut
-                                              && !_fieldArray[x + 1, z + 1]._isPut && !_fieldArray[x - 1, z - 1]._isPut
-                                              && !_fieldArray[x + 1, z - 1]._isPut && !_fieldArray[x - 1, z + 1]._isPut)
+            if (!_fieldArray[x + 1, z]._isPut && !_fieldArray[x - 1, z]._isPut &&
+                !_fieldArray[x, z + 1]._isPut && !_fieldArray[x, z - 1]._isPut &&
+                !_fieldArray[x + 1, z + 1]._isPut && !_fieldArray[x - 1, z - 1]._isPut &&
+                !_fieldArray[x + 1, z - 1]._isPut && !_fieldArray[x - 1, z + 1]._isPut)
             {
                 _fieldArray[x + 1, z]._isPut = true;
                 _fieldArray[x - 1, z]._isPut = true;
@@ -161,6 +163,8 @@ public class FieldGenerator : MonoBehaviour
                 _fieldArray[x - 1, z - 1]._isPut = true;
                 _fieldArray[x + 1, z - 1]._isPut = true;
                 _fieldArray[x - 1, z + 1]._isPut = true;
+
+
 
                 return true;
             }

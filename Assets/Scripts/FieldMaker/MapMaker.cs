@@ -24,6 +24,7 @@ public class MapMaker : MonoBehaviour
             go.transform.SetParent(gameObject.transform);
             go.transform.position = FieldPosSet(go);
             _meshMaterialCombiner._fieldGeneratorArray[i] = go.transform;
+            go.GetComponent<FieldGenerator>().PutObject();
         }
 
         _meshMaterialCombiner.OnCombineMaterial();

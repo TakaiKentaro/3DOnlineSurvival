@@ -8,8 +8,6 @@ using ColorUtility = UnityEngine.ColorUtility;
 
 public class FieldBox : MonoBehaviour
 {
-    private Camera _camera;
-    private MeshRenderer _renderer;
-
     public bool _isPut = false;
+    public Transform _objectCreationPosition;
 }
