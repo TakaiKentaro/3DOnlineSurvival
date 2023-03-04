@@ -38,6 +38,8 @@ public class FieldGenerator : MonoBehaviour
     [SerializeField, Tooltip("Field用Stone")]
     private GameObject _fieldStone;
 
+    [SerializeField] private Material[] _materialArray;
+
     private FieldBox[,] _fieldArray;
 
     private void Awake()
@@ -63,7 +65,7 @@ public class FieldGenerator : MonoBehaviour
             }
         }
 
-        //PutObject();
+        PutObject();
     }
 
     private void SetYPosition(GameObject cube)
@@ -93,26 +95,26 @@ public class FieldGenerator : MonoBehaviour
 
         cube.transform.localPosition = new Vector3(cube.transform.localPosition.x, y, cube.transform.localPosition.z);
 
-        // ChangeCubeColor(cube, y);
+        ChangeCubeColor(cube, y);
     }
 
     void ChangeCubeColor(GameObject cube, float y) //高さによって色を段階的に変更
     {
         if (y > _maxHeight * 0.3f) //草
         {
-            cube.GetComponent<FieldBox>().ChangeColor("#00ff00");
+            cube.GetComponent<MeshRenderer>().material = _materialArray[0];
         }
         else if (y > _maxHeight * 0.2f) // 土
         {
-            cube.GetComponent<FieldBox>().ChangeColor("#8b4513");
+            cube.GetComponent<MeshRenderer>().material = _materialArray[1];
         }
         else if (y > _maxHeight * 0.1f) // 石
         {
-            cube.GetComponent<FieldBox>().ChangeColor("#808080");
+            cube.GetComponent<MeshRenderer>().material = _materialArray[2];
         }
         else
         {
-            cube.GetComponent<FieldBox>().ChangeColor("#000000");
+            cube.GetComponent<MeshRenderer>().material = _materialArray[3];
         }
     }
 
@@ -128,12 +130,12 @@ public class FieldGenerator : MonoBehaviour
                 {
                     if (go.transform.position.y > _maxHeight * 0.3f)
                     {
-                        Instantiate(_fieldTree, new Vector3(0, 5f, 0), Quaternion.identity);
+                        Instantiate(_fieldTree, go.transform.position, Quaternion.identity);
                         go._isPut = true;
                     }
                     else if (go.transform.position.y > _maxHeight * 0.1f)
                     {
-                        Instantiate(_fieldStone, new Vector3(0, 5f, 0), Quaternion.identity);
+                        Instantiate(_fieldStone, go.transform.position, Quaternion.identity);
                         go._isPut = true;
                     }
                 }

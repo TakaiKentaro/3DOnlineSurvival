@@ -4,20 +4,9 @@ using UnityEngine;
 
 public class MeshCombiner : MonoBehaviour
 {
-    [SerializeField] Transform _fieldGenerator;
+    public Transform _fieldGenerator;
 
     [SerializeField] Material _combinedMat;
-
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
-
     public void OnCombine()
     {
         CombineMesh();

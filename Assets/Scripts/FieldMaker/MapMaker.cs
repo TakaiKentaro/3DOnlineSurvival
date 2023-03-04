@@ -7,18 +7,12 @@ public class MapMaker : MonoBehaviour
 {
     [SerializeField] private int _fieldSize = 0;
     [SerializeField] private GameObject _fieldGenerator;
-    [SerializeField] private MeshCombiner _meshConbiner;
 
     private GameObject[,] _fieldArray;
     private void Start()
     {
         _fieldArray = new GameObject[_fieldSize,_fieldSize];
         MapMake();
-    }
-
-    private void Update()
-    {
-        
     }
 
     void MapMake()
@@ -33,6 +27,5 @@ public class MapMaker : MonoBehaviour
                 _fieldArray[x,z].transform.position = new Vector3(x * 50, 0, z * 50);
             }
         }
-
     }
 }
