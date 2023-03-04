@@ -46,8 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _seedX: 0
   _seedZ: 0
-  _width: 20
-  _depth: 20
+  _width: 100
+  _depth: 100
   _maxHeight: 10
   _undulation: 15
   _mapSize: 1
