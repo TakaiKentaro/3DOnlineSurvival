@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TreeEditor;
 using UnityEngine;
+using UnityEngine.ProBuilder.Shapes;
 
-/// <summary>
-/// ランダムにマップを生成するクラス
-/// </summary>
 public class FieldGenerator : MonoBehaviour
 {
     [Header("シード値")]
@@ -23,11 +21,6 @@ public class FieldGenerator : MonoBehaviour
     [SerializeField, Tooltip("起伏の激しさ")] private float _undulation = 15f;
     [SerializeField, Tooltip("マップの大きさ")] private float _mapSize = 1f;
 
-    [SerializeField, Tooltip("パーリンノイズを使うか")]
-    private bool _isPerlinNoiseMap = true;
-
-    [SerializeField, Tooltip("Y軸の滑らかにするか")]
-    private bool _isSmoothness = false;
 
     [SerializeField, Tooltip("Field用Box")]
     private GameObject _fieldBox;
@@ -40,11 +33,14 @@ public class FieldGenerator : MonoBehaviour
 
     [SerializeField] private Material[] _materialArray;
 
+    private GameObject _gameObjectContainer;
     private FieldBox[,] _fieldArray;
 
     private void Awake()
     {
         _maxHeight = Random.Range(5, 20);
+
+        _gameObjectContainer = GameObject.Find("GameObjectContainer");
         _fieldArray = new FieldBox[(int)_width, (int)_depth];
 
         transform.localScale = new Vector3(_mapSize, _mapSize, _mapSize);
@@ -73,26 +69,16 @@ public class FieldGenerator : MonoBehaviour
     {
         float y = 0;
 
-        if (_isPerlinNoiseMap) // パーリンノイズを使って高さを決める
-        {
-            float xSample = (cube.transform.localPosition.x + _seedX) / _undulation;
-            float zSample = (cube.transform.localPosition.z + _seedZ) / _undulation;
+        float xSample = (cube.transform.localPosition.x + _seedX) / _undulation;
+        float zSample = (cube.transform.localPosition.z + _seedZ) / _undulation;
 
-            var perlin = new MathfPerlin();
+        var perlin = new MathfPerlin();
 
-            float noise = perlin.Noise(xSample, zSample);
+        float noise = perlin.Noise(xSample, zSample);
 
-            y = _maxHeight * noise;
-        }
-        else // ランダムで決める
-        {
-            y = Random.Range(0, _maxHeight);
-        }
+        y = _maxHeight * noise;
 
-        if (!_isSmoothness) // 滑らかにしない場合はyを四捨五入する
-        {
-            y = Mathf.Round(y);
-        }
+        y = Mathf.Round(y);
 
         cube.transform.localPosition = new Vector3(cube.transform.localPosition.x, y, cube.transform.localPosition.z);
 
@@ -121,9 +107,9 @@ public class FieldGenerator : MonoBehaviour
 
     public void PutObject()
     {
-        for (int x = 0; x < _width; x+=10)
+        for (int x = 0; x < _width; x += 10)
         {
-            for (int z = 0; z < _depth; z+=10)
+            for (int z = 0; z < _depth; z += 10)
             {
                 FieldBox go = _fieldArray[x, z];
 
@@ -133,12 +119,13 @@ public class FieldGenerator : MonoBehaviour
 
                     if (y > _maxHeight * 0.3f && y < _maxHeight * 0.5f)
                     {
-                        Instantiate(_fieldTree, go._objectCreationPosition.position, Quaternion.identity);
+                        Instantiate(_fieldTree, go._objectCreationPosition.position, Quaternion.identity).transform.SetParent(_gameObjectContainer.transform);
+                        _fieldTree.transform.SetParent(_gameObjectContainer.transform);
                         go._isPut = true;
                     }
                     else if (y > _maxHeight * 0f && y < _maxHeight * 0.2f)
                     {
-                        Instantiate(_fieldStone, go._objectCreationPosition.position, Quaternion.identity);
+                        Instantiate(_fieldStone, go._objectCreationPosition.position, Quaternion.identity).transform.SetParent(_gameObjectContainer.transform);
                         go._isPut = true;
                     }
                 }
@@ -163,8 +150,6 @@ public class FieldGenerator : MonoBehaviour
                 _fieldArray[x - 1, z - 1]._isPut = true;
                 _fieldArray[x + 1, z - 1]._isPut = true;
                 _fieldArray[x - 1, z + 1]._isPut = true;
-
-
 
                 return true;
             }

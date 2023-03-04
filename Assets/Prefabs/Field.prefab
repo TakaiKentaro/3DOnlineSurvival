@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1730965151
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1730965152}
+  m_Layer: 0
+  m_Name: GameObjectContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1730965152
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1730965151}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1575513058274538881}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1575513056967156590
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 055496c417a3eb24786cdeceffb1f400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fieldSize: 5
+  _fieldSize: 1
   _fieldGenerator: {fileID: 6736502840551938400, guid: 057bf02011ab38845b8f02faeb2aaa2e, type: 3}
   _meshMaterialCombiner: {fileID: 1575513057021550107}
 --- !u!1 &1575513058274538880
@@ -77,6 +108,7 @@ Transform:
   m_Children:
   - {fileID: 1575513056967156576}
   - {fileID: 1575513057021550106}
+  - {fileID: 1730965152}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
