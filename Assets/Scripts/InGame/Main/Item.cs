@@ -13,6 +13,9 @@ public class Item
         Stick,
         Stone,
         Sword_Stone,
+        Axe_Stone,
+        Pickaxe_Stone,
+        Boat,
     }
 
     public ItemType itemType;

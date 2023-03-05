@@ -7,15 +7,24 @@ using Photon.Realtime;
 [RequireComponent(typeof(Rigidbody), typeof(PhotonView))]
 public class PlayerMoveController : MonoBehaviour
 {
+    [Header("ÉpÉâÉÅÅ[É^")]
     [SerializeField] float _movingSpeed = 0;
     [SerializeField] float _turnSpeed = 0;
     [SerializeField] float _jumpPower = 0;
     [SerializeField] float _isGroundedLength = 0;
     [SerializeField] Animator _anim;
 
+    [Header("Tools")]
+    [SerializeField] GameObject _hand;
+    [SerializeField] GameObject _sword;
+    [SerializeField] GameObject _axe;
+    [SerializeField] GameObject _pickaxe;
+
     Rigidbody _rb;
     PhotonView _view;
-
+    bool _isMove = false;
+    float _time = 0f;
+    string _name = "";
     void Start()
     {
         _view = GetComponent<PhotonView>();
@@ -24,7 +33,6 @@ public class PlayerMoveController : MonoBehaviour
             if (_view.IsMine)
             {
                 _rb = GetComponent<Rigidbody>();
-                _anim = GetComponent<Animator>();
             }
         }
     }
@@ -32,6 +40,14 @@ public class PlayerMoveController : MonoBehaviour
     void Update()
     {
         if (!_view.IsMine) return;
+        if (!_isMove)
+        {
+            Move();
+        }
+    }
+
+    private void Move()
+    {
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
 
@@ -58,36 +74,52 @@ public class PlayerMoveController : MonoBehaviour
         {
             Vector3 velocity = _rb.velocity;
             velocity.y = 0f;
-            _anim.SetFloat("Speed", velocity.magnitude);
 
-            if (_rb.velocity.y <= 0f && IsGrounded())
+            if (velocity != new Vector3(0, 0, 0))
             {
-                _anim.SetBool("IsGrounded", true);
+                _anim.SetBool("IsWalk", true);
             }
-            else if (!IsGrounded())
+            else
             {
-                _anim.SetBool("IsGrounded", false);
+                _anim.SetBool("IsWalk", false);
             }
+
         }
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
-            Debug.Log("Jump");
             _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
 
-            if (_anim)
-            {
-                _anim.SetBool("IsGrounded", false);
-            }
+            _anim.SetBool("IsJump", true);
+
+            _name = "IsJump";
+            _time = 0.5f;
+            StartCoroutine(IsCoroutine());
+        }
+        if (Input.GetButtonDown("Fire1") && IsGrounded())
+        {
+            _anim.SetBool("IsAttack", true);
+
+            _isMove = true;
+            _name = "IsAttack";
+            _time = 0.5f; 
+            StartCoroutine(IsCoroutine());
         }
     }
 
     bool IsGrounded()
     {
         CapsuleCollider col = GetComponent<CapsuleCollider>();
-        Vector3 start = this.transform.position + col.center;   
-        Vector3 end = start + Vector3.down * _isGroundedLength;  
-        Debug.DrawLine(start, end); 
-        bool isGrounded = Physics.Linecast(start, end); 
+        Vector3 start = this.transform.position + col.center;
+        Vector3 end = start + Vector3.down * _isGroundedLength;
+        Debug.DrawLine(start, end);
+        bool isGrounded = Physics.Linecast(start, end);
         return isGrounded;
+    }
+
+    IEnumerator IsCoroutine()
+    {
+        yield return new WaitForSeconds(_time);
+        _anim.SetBool(_name, false);
+        _isMove = false;
     }
 }
