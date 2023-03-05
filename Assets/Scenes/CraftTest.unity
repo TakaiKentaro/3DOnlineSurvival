@@ -318,15 +318,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4801081709599258674, guid: 048fa18c9604da54cb6c06efc4bb32a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 703.48065
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4801081709599258674, guid: 048fa18c9604da54cb6c06efc4bb32a3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 592.6251
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4801081709599258674, guid: 048fa18c9604da54cb6c06efc4bb32a3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1893.8275
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4801081709599258674, guid: 048fa18c9604da54cb6c06efc4bb32a3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -356,21 +356,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4801081710478664346, guid: 048fa18c9604da54cb6c06efc4bb32a3, type: 3}
-      propertyPath: s_Boat
-      value: 
-      objectReference: {fileID: 21300000, guid: aec0ac1719ab2c748b7448246dfc0770, type: 3}
-    - target: {fileID: 4801081710478664346, guid: 048fa18c9604da54cb6c06efc4bb32a3, type: 3}
-      propertyPath: s_Axe_Stone
-      value: 
-      objectReference: {fileID: 21300000, guid: d9f674fae90340549bc32e0c1c7fb937, type: 3}
-    - target: {fileID: 4801081710478664346, guid: 048fa18c9604da54cb6c06efc4bb32a3, type: 3}
-      propertyPath: s_Sword_Stone
-      value: 
-      objectReference: {fileID: 21300000, guid: 490107e22d10c2a4098e44a17244a47c, type: 3}
-    - target: {fileID: 4801081710478664346, guid: 048fa18c9604da54cb6c06efc4bb32a3, type: 3}
-      propertyPath: s_Pickaxe_Stone
-      value: 
-      objectReference: {fileID: 21300000, guid: ded1c0db7594144478e5b8ef1115f1df, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 048fa18c9604da54cb6c06efc4bb32a3, type: 3}

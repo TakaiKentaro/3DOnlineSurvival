@@ -1229,7 +1229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1575513058274538881, guid: 602ccc74aac7d0748b23fcc48ad66aa9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -122.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1575513058274538881, guid: 602ccc74aac7d0748b23fcc48ad66aa9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1257,6 +1257,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1575513058274538881, guid: 602ccc74aac7d0748b23fcc48ad66aa9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8879692283195682611, guid: 602ccc74aac7d0748b23fcc48ad66aa9, type: 3}
+      propertyPath: waveOriginPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8879692283195682620, guid: 602ccc74aac7d0748b23fcc48ad66aa9, type: 3}
