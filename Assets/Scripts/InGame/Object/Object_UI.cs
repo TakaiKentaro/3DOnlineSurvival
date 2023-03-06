@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Cinemachine;
 
 public class Object_UI : MonoBehaviour
 {
@@ -16,13 +17,11 @@ public class Object_UI : MonoBehaviour
     [Header("Camera")]
     [SerializeField] float _hideDistance = 0;
 
-    private Camera _camera;
+    private CinemachineVirtualCamera _camera;
     private int _hp;
     private ObjectType _type;
 
-    public Camera Camera => _camera;
-
-    public void SetObject(ObjectType type, int hp,Camera cam)
+    public void SetObject(ObjectType type, int hp, CinemachineVirtualCamera cam)
     {
         _camera = cam;
         _type = type;
@@ -39,7 +38,8 @@ public class Object_UI : MonoBehaviour
 
     private void Update()
     {
-        var camera = Vector3.Distance(_camera.transform.position, transform.position);
+        if(!_camera) return;
+        float camera = Vector3.Distance(_camera.transform.position, transform.position);
 
         if(camera <= _hideDistance)
         {

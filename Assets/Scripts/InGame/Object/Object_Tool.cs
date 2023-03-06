@@ -14,8 +14,12 @@ public class Object_Tool : MonoBehaviour
         _tagName = gameObject.tag;
         _boxCollider = GetComponent<BoxCollider>();
 
-        _boxCollider.enabled = false;
-        gameObject.SetActive(false);
+        if(gameObject.tag != "Hand")
+        {
+            _boxCollider.enabled = false;
+            gameObject.SetActive(false);
+        }
+        
     }
 
     public void OnUse()
@@ -49,8 +53,6 @@ public class Object_Tool : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("a");
-
         if (other.gameObject.GetComponent<Object_Root>())
         {
             Object_Root obj = other.gameObject.GetComponent<Object_Root>();

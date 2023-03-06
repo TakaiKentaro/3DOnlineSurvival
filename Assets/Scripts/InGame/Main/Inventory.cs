@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Inventory : IItemHolder
 {
+    public static Inventory Instance;
+
     public event EventHandler OnItemListChanged;
 
     private List<Item> _itemList;
@@ -23,8 +25,16 @@ public class Inventory : IItemHolder
         }
 
         // デバック用
-        AddItem(new Item { itemType = Item.ItemType.Wood, amount = 10 });
-        AddItem(new Item { itemType = Item.ItemType.Stone, amount = 5 });
+        AddItem(new Item { itemType = Item.ItemType.Wood, amount = 12 });
+        AddItem(new Item { itemType = Item.ItemType.Stick, amount = 1 });
+        AddItem(new Item { itemType = Item.ItemType.Axe_Stone, amount = 1 });
+        AddItem(new Item { itemType = Item.ItemType.Pickaxe_Stone, amount = 1 });
+        AddItem(new Item { itemType = Item.ItemType.Stone, amount = 6 });
+    }
+
+    public void CallAddItem(Item.ItemType item, int amount)
+    {
+        AddItem(new Item { itemType = item, amount = amount });
     }
 
     public InventorySlot GetEmptyInventorySlot()

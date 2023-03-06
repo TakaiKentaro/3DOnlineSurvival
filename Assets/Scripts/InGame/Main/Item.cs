@@ -66,6 +66,9 @@ public class Item
             
             //武器
             case ItemType.Sword_Stone: return ItemAssets.Instance.s_Sword_Stone;
+            case ItemType.Axe_Stone: return ItemAssets.Instance.s_Axe_Stone;
+            case ItemType.Pickaxe_Stone: return ItemAssets.Instance.s_Pickaxe_Stone;
+            case ItemType.Boat: return ItemAssets.Instance.s_Boat;
         }
     }
 
@@ -104,6 +107,9 @@ public class Item
 
             // 重ね不可能
             case ItemType.Sword_Stone:
+            case ItemType.Axe_Stone:
+            case ItemType.Pickaxe_Stone:
+            case ItemType.Boat:
                 return false;
         }
     }
@@ -126,21 +132,4 @@ public class Item
     {
         return itemType.ToString();
     }
-
-    /*public CharacterEquipment.EquipSlot GetEquipSlot()
-   {
-       switch (itemType)
-       {
-        
-           default:
-               return CharacterEquipment.EquipSlot.None;
-       
-               return CharacterEquipment.EquipSlot.Armor;
-       
-               return CharacterEquipment.EquipSlot.Helmet;
-
-           case ItemType.Sword_Stone:
-               return CharacterEquipment.EquipSlot.Wepon;   
-       }
-   }*/
 }

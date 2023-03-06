@@ -1,12 +1,14 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public enum ObjectType
 {
     None,
-    
+
     Wood,
 
     Stone,
@@ -17,27 +19,27 @@ public class Object_Root : MonoBehaviour
 {
     [SerializeField] private ObjectType _objectType;
     [SerializeField] private int _hp;
-    [SerializeField] Camera _camera;
-    
+    [SerializeField] CinemachineVirtualCamera _camera;
+
     [SerializeField] private Object_Body _body;
     [SerializeField] private Object_UI _ui;
 
     private void Start()
     {
-        _camera = FindObjectOfType<Camera>();
-        
+        _camera = FindObjectOfType<CinemachineVirtualCamera>();
+
         _body.SetObject(_objectType);
-        _ui.SetObject(_objectType,_hp, _camera);
+        _ui.SetObject(_objectType, _hp, _camera);
     }
 
-    public void OnCollisionDamage(string tag,int dmg)
+    public void OnCollisionDamage(string tag, int dmg)
     {
         DamageCalculation(tag, dmg);
     }
 
-    private void DamageCalculation(string tag,int dmg)
+    private void DamageCalculation(string tag, int dmg)
     {
-        switch(tag)
+        switch (tag)
         {
             case "Axe":
                 {
@@ -75,8 +77,24 @@ public class Object_Root : MonoBehaviour
                 break;
         }
 
-        if(_hp <= 0)
+        if (_hp <= 0)
         {
+            var drawAmount = UnityEngine.Random.Range(3, 5);
+
+            //switch (_objectType)
+            //{
+            //    case ObjectType.Wood:
+            //        {
+            //            Inventory.Instance.CallAddItem(Item.ItemType.Wood, drawAmount);
+            //        }
+            //        break;
+            //    case ObjectType.Stone:
+            //        {
+            //            Inventory.Instance.CallAddItem(Item.ItemType.Stone, drawAmount);
+            //        }
+            //        break;
+            //}
+
             gameObject.SetActive(false);
         }
     }

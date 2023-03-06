@@ -4,6 +4,8 @@ using UnityEngine;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
+using Unity.VisualScripting;
+
 [RequireComponent(typeof(Rigidbody), typeof(PhotonView))]
 public class PlayerMoveController : MonoBehaviour
 {
@@ -22,6 +24,7 @@ public class PlayerMoveController : MonoBehaviour
 
     Rigidbody _rb;
     PhotonView _view;
+    Transform _spawnPos;
     bool _isMove = false;
     float _time = 0f;
     string _name = "";
@@ -35,6 +38,7 @@ public class PlayerMoveController : MonoBehaviour
                 _rb = GetComponent<Rigidbody>();
             }
         }
+        //_spawnPos = GameObject.Find("PlayerSpawn").GetComponent<Transform>();
     }
 
     void Update()
@@ -43,6 +47,14 @@ public class PlayerMoveController : MonoBehaviour
         if (!_isMove)
         {
             Move();
+        }
+        if (_spawnPos)
+        {
+            Vector3 pos = _spawnPos.position;
+            if (pos.y <= -5f)
+            {
+                gameObject.transform.position = _spawnPos.position;
+            }
         }
     }
 
@@ -73,7 +85,6 @@ public class PlayerMoveController : MonoBehaviour
         if (_anim)
         {
             Vector3 velocity = _rb.velocity;
-            velocity.y = 0f;
 
             if (velocity != new Vector3(0, 0, 0))
             {
@@ -101,7 +112,7 @@ public class PlayerMoveController : MonoBehaviour
 
             _isMove = true;
             _name = "IsAttack";
-            _time = 0.5f; 
+            _time = 0.5f;
             StartCoroutine(IsCoroutine());
         }
     }

@@ -79,9 +79,13 @@ public class UI_Inventory : MonoBehaviour
                 {
                     if (Input.GetKey("shift")) // 量を半分
                     {
-                        int splitAmount = Mathf.FloorToInt(item.amount / 2f);
-                        item.amount -= splitAmount;
-                        Item duplicateItem = new Item { itemType = item.itemType, amount = splitAmount };
+                        //int splitAmount = Mathf.FloorToInt(item.amount / 2f);
+                        //item.amount -= splitAmount;
+                        //Item duplicateItem = new Item { itemType = item.itemType, amount = splitAmount };
+                        //_inventory.AddItem(duplicateItem);
+                        int drawAmount = 1;
+                        item.amount -= drawAmount;
+                        Item duplicateItem = new Item { itemType = item.itemType, amount = drawAmount };
                         _inventory.AddItem(duplicateItem);
                     }
                     else // １つのみ

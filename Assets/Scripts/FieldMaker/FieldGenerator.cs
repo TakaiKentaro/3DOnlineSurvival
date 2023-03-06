@@ -120,7 +120,6 @@ public class FieldGenerator : MonoBehaviour
                     if (y > _maxHeight * 0.3f && y < _maxHeight * 0.5f)
                     {
                         Instantiate(_fieldTree, go._objectCreationPosition.position, Quaternion.identity).transform.SetParent(_gameObjectContainer.transform);
-                        _fieldTree.transform.SetParent(_gameObjectContainer.transform);
                         go._isPut = true;
                     }
                     else if (y > _maxHeight * 0f && y < _maxHeight * 0.2f)
