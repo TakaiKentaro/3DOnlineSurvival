@@ -9,7 +9,7 @@ using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 [CustomEditor(typeof(CraftingSystem))]
-public class MyWindow : EditorWindow
+public class CraftRecipeGenerator : EditorWindow
 {
     Item.ItemType[,] itemTypes = new Item.ItemType[5, 5];
     Item.ItemType recepi = Item.ItemType.None;
@@ -18,7 +18,7 @@ public class MyWindow : EditorWindow
     [MenuItem("Window/CraftRecipeGenerator")]
     static void Open()
     {
-        var window = GetWindow<MyWindow>();
+        var window = GetWindow<CraftRecipeGenerator>();
         window.titleContent = new GUIContent("CraftRecipeGenerator");
     }
 
