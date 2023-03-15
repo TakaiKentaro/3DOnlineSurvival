@@ -448,6 +448,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1575513056967156591, guid: 602ccc74aac7d0748b23fcc48ad66aa9, type: 3}
+      propertyPath: _fieldSize
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1575513058274538880, guid: 602ccc74aac7d0748b23fcc48ad66aa9, type: 3}
       propertyPath: m_Name
       value: Field
