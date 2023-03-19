@@ -2,9 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <Summary>
-/// メッシュとマテリアルを結合するクラスです。
-/// </Summary>
 public class MeshMaterialCombiner : MonoBehaviour
 {
     public Transform[] _fieldGeneratorArray;

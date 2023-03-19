@@ -25,11 +25,8 @@ public class Inventory : IItemHolder
         }
 
         // デバック用
-        AddItem(new Item { itemType = Item.ItemType.Wood, amount = 12 });
-        AddItem(new Item { itemType = Item.ItemType.Stick, amount = 1 });
-        AddItem(new Item { itemType = Item.ItemType.Axe_Stone, amount = 1 });
-        AddItem(new Item { itemType = Item.ItemType.Pickaxe_Stone, amount = 1 });
-        AddItem(new Item { itemType = Item.ItemType.Stone, amount = 6 });
+        AddItem(new Item { itemType = Item.ItemType.Wood, amount = 10 });
+        AddItem(new Item { itemType = Item.ItemType.Stone, amount = 10 });
     }
 
     public void CallAddItem(Item.ItemType item, int amount)
