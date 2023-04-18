@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Linq;
 using UnityEngine;
 
 public class CraftingSystem : IItemHolder
@@ -9,7 +7,7 @@ public class CraftingSystem : IItemHolder
     public const int GRID_SIZE = 5;
 
     public event EventHandler OnGridChanged;
-
+    
     private CraftingRecipeData[] _craftingRecipeDatas = Resources.LoadAll<CraftingRecipeData>("");
     private Dictionary<Item.ItemType, Item.ItemType[,]> _recipeDictionary;
     private Item[,] _itemArray;

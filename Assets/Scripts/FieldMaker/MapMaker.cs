@@ -8,7 +8,7 @@ public class MapMaker : MonoBehaviour
     [SerializeField] private int _fieldSize = 0;
     [SerializeField] private GameObject _fieldGenerator;
     [SerializeField] MeshMaterialCombiner _meshMaterialCombiner;
-
+    
     private bool[,] _isArray;
     private void Start()
     {
