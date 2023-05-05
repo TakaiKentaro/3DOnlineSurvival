@@ -764,6 +764,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ocean
       objectReference: {fileID: 0}
+    - target: {fileID: 7991173351503001177, guid: a09acf3bca75c5945b26c15f30fb6371, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a09acf3bca75c5945b26c15f30fb6371, type: 3}
 --- !u!1 &807349647
