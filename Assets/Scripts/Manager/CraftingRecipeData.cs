@@ -1,5 +1,3 @@
-#if UNITY_EDITOR
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,6 +19,7 @@ public class CraftingRecipeData : ScriptableObject
     }
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(CraftingRecipeData))]
 public class CraftingRecipeDataEditor : Editor
 {
@@ -38,5 +37,4 @@ public class CraftingRecipeDataEditor : Editor
         }
     }
 }
-
 #endif
